@@ -31,6 +31,11 @@ PrefabInstance:
       propertyPath: m_Color.r
       value: 0.5754717
       objectReference: {fileID: 0}
+    - target: {fileID: 1510695763592772910, guid: 1846ca17f1b9fda4fa92c01084ae5e05,
+        type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 2147483647
+      objectReference: {fileID: 0}
     - target: {fileID: 2433213936776254661, guid: 1846ca17f1b9fda4fa92c01084ae5e05,
         type: 3}
       propertyPath: m_RootOrder
@@ -90,6 +95,31 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: Lights Purple
+      objectReference: {fileID: 0}
+    - target: {fileID: 3066761695895768703, guid: 1846ca17f1b9fda4fa92c01084ae5e05,
+        type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 2147483647
+      objectReference: {fileID: 0}
+    - target: {fileID: 3297296689205559626, guid: 1846ca17f1b9fda4fa92c01084ae5e05,
+        type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 2147483647
+      objectReference: {fileID: 0}
+    - target: {fileID: 4248156225018900595, guid: 1846ca17f1b9fda4fa92c01084ae5e05,
+        type: 3}
+      propertyPath: m_Color.b
+      value: 0.48627454
+      objectReference: {fileID: 0}
+    - target: {fileID: 4248156225018900595, guid: 1846ca17f1b9fda4fa92c01084ae5e05,
+        type: 3}
+      propertyPath: m_Color.g
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4248156225018900595, guid: 1846ca17f1b9fda4fa92c01084ae5e05,
+        type: 3}
+      propertyPath: m_Color.r
+      value: 0.9058824
       objectReference: {fileID: 0}
     - target: {fileID: 5025350780786886129, guid: 1846ca17f1b9fda4fa92c01084ae5e05,
         type: 3}

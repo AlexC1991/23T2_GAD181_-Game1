@@ -32,7 +32,7 @@ namespace AlexzanderCowell
         
         [Header("Character info")]
         [SerializeField] private CharacterController controller; // This gets the character controller to be used inside of this script to move the character.
-        [SerializeField] private float mouseSensitivity = 5; // Amplifies the mouse movement to be more sensitive when used to rotate the character.
+        [SerializeField] private float mouseSensitivity = 1; // Amplifies the mouse movement to be more sensitive when used to rotate the character.
         [SerializeField] private float characterGravity = 20; // Sets the gravity for the character.
 
         [Header("Various Variables Used")]
@@ -59,6 +59,10 @@ namespace AlexzanderCowell
         [SerializeField] private GameObject soundOnYes; // This shows the button for sounds on.
         [SerializeField] private GameObject soundOnNo; // this shows the button for sounds off.
         [SerializeField] private Text soundIsWhat; // This text shows on the screen that the sound is currently doing if it be on or off.
+        [SerializeField] private GameObject whatIsText;
+        [SerializeField] private Text topTrainingText;
+        [SerializeField] private Text bottomTrainingText;
+        
         
         [Header("Boots")] 
         private GameObject bootLeft; // Gets the left boot from the rocket boot/shoe prefab.
@@ -92,7 +96,7 @@ namespace AlexzanderCowell
             slideTimer.GetComponent<CanvasGroup>().alpha = 0; // Sets the sliderTimer to be invisible using the CanvasGroup.
         }
         private void Start() {
-            
+            whatIsText.SetActive(false);
             roomRScript.currentRMessages = 0; // Defaults the current R messages to be 0;
             checkRoomPoint.currentCMessages = 0; // Defaults the current C messages to be 0;
             timeRoomS.currentTMessages = 0; // Defaults the current T messages to be 0;
@@ -136,12 +140,16 @@ namespace AlexzanderCowell
         }
 
         private void TimeSpawnRoom() {
-            
+            whatIsText.SetActive(true);
             controller.transform.position = timeSpawnPoint.position; // Uses the character controllers position and moves the character to the time spawn point for the time room tutorial to start.
             runSpeed = 0; // Keeps the run speed to 0 so the player can not run around until the trainer is finished talking.
             insideOfTimeRoom = true; // This Bool is to indicate that yes the character is in the Time training Room.
             timeScript.currentTime = 10; // Makes sure the current Time is always at 10 seconds and does not move from 10.
             shouldTeleport = false; // Makes teleporting false so there is no error or bugs.
+            topTrainingText.text = "This is the Time Training Room".ToString();
+            bottomTrainingText.text = "Press 'E' to talk to the trainer in the room".ToString();
+               topTrainingText.GetComponent<Text>().color = Color.cyan;
+               bottomTrainingText.GetComponent<Text>().color = Color.green;
         }
         
         public void MainStartRoomSpawn() {
@@ -154,23 +162,31 @@ namespace AlexzanderCowell
             roomRScript.currentRMessages = 0; // Sets the current rocket room messages to be 0 so the game does not keep the messages at 11.
             insideOfRocketRoom = false; // Says you are no longer in the rocket room.
             SpawnSomeBootsEvent(); // Starts the method that starts spawning boots event so the boots in the maze can start spawning.
+            whatIsText.SetActive(false);
         }
 
         private void CheckPointSpawnRoom() { 
-            
+            whatIsText.SetActive(true);
             controller.transform.position = checkSpawnPoint.position; // Transforms position of the character to the check point spawn room for training.
             insideOfCheckPointRoom = true; // Says the character is in the check point room which in this case is yes.
+            topTrainingText.text = "This is the Checkpoint Training Room".ToString();
+            bottomTrainingText.text = "Press 'E' to talk to the trainer in the room".ToString();
+            topTrainingText.GetComponent<Text>().color = Color.white;
+            bottomTrainingText.GetComponent<Text>().color = Color.green;
         }
 
         private void RocketBootRoomSpawnPoint() {
-            
+            whatIsText.SetActive(true);
             checkRoomPoint.currentCMessages = 0; // Resets the check point training room messages to 0.
             timeRoomS.currentTMessages = 0; // Resets the Time training room to be 0 as well.
             insideOfRocketRoom = true; // Says yes the character is in the rocket training room.
             insideOfTimeRoom = false; // Says no the character is not in the time training room.
             runSpeed = 0; // Sets the player run speed to be 0 so the player can not run around.
             controller.transform.position = rocketSpawnPoint.position; // Sends the player to the rocket boot/shoe training room spawn point location.
-
+            topTrainingText.text = "This is the Rocket Boot Training Room".ToString();
+            bottomTrainingText.text = "Press 'E' to talk to the trainer in the room".ToString();
+            topTrainingText.GetComponent<Text>().color = Color.red;
+            bottomTrainingText.GetComponent<Text>().color = Color.yellow;
         }
         private void OnEnable() {
             
@@ -262,7 +278,7 @@ namespace AlexzanderCowell
             moveVertical = Input.GetAxis("Vertical"); // Gets the vertical movement of the character.
             Vector3 movement = new Vector3(-moveHorizontal, 0f, -moveVertical); // Allows the character to move forwards and backwards & left & right.
             movement = transform.TransformDirection(movement) * runSpeed; // Gives the character movement speed.
-            transform.Rotate(Vector3.up, mouseXposition * 120 * Time.deltaTime); // Gets the mouse input and uses it to rotate the character.
+            transform.Rotate(Vector3.up, mouseXposition * 80 * Time.deltaTime); // Gets the mouse input and uses it to rotate the character.
             controller.Move((movement + moveDirection) * Time.deltaTime); // Gets all the movement variables and moves the character.
             
             if (Input.GetKeyDown(KeyCode.Escape) && menuDuringGame) { // If you press the ESC button and if menu during the game is true it will allow the in game menu to be opened.
