@@ -16,7 +16,7 @@ namespace AlexzanderCowell
                 {
                     newSavePoint = true; // Collision with the GameObject with the tag called Player will make this bool turn true.
                     NewSaveEvent(); // Starts the Method below to activate the Action Event.
-                    Destroy(gameObject); // Destroys the GameObject this script is attached to.
+                    gameObject.SetActive(false); // Destroys the GameObject this script is attached to.
                 }
                 else
                 {

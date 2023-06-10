@@ -14,7 +14,7 @@ namespace AlexzanderCowell
             {
                 moreTimeAdded = true; // When the GameObject with tag called Player collides with the Time GameObject this is attached to it will say that there needs to be more time added with a yes/true.
                 MoreTimePlease(); // Activates the Action Event.
-                Destroy(gameObject); // Destroys the GameObject this script is attached to.
+                gameObject.SetActive(false); // Destroys the GameObject this script is attached to.
             }
             else
             {
