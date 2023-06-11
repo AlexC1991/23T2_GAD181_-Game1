@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -11,8 +12,12 @@ namespace AlexzanderCowell
         private int maxMessages = 11; // Sets a max message limit for the clamp used underneath.
         [HideInInspector]
         public int currentTMessages; // Current message count for what message is at what and keeps the dialog going. It's used in the Character Movement script as well to allow the player to do stuff at the end.
-
-
+        private bool yesHeIs;
+        public static event Action<int> _LetTheCharacterMoveInTheTimeRoom ;
+        private void Start()
+        {
+            currentTMessages = 0;
+        }
         private void OnTriggerEnter(Collider other) // Detects when the something named other enters the collider.
         {
             if (other.CompareTag("Player")) // Gives the other a name to look for when it collides with it. In this instance it's the GameObject that has the tag in unity called Player.
@@ -24,7 +29,28 @@ namespace AlexzanderCowell
                 nextMessagePlease = false; // Player dose not collide with it making the bool false.
             }
         }
+        private void OnEnable()
+        {
+            SpawnLocations._TimerRoomEvent += IsHeInsideOfTRoom;
+            CharacterMovement._ResetTCurrentMessageEvent += ResetTMessages;
+        }
+        private void OnDisable()
+        {
+            SpawnLocations._TimerRoomEvent -= IsHeInsideOfTRoom;
+            CharacterMovement._ResetTCurrentMessageEvent -= ResetTMessages;
+        }
+        private void IsHeInsideOfTRoom(bool insideOfTimerRoom)
+        {
+            if (insideOfTimerRoom) yesHeIs = true;
+        }
         private void Update()
+        {
+            if (nextMessagePlease && yesHeIs) InsideOfThisRoom();
+            _LetTheCharacterMoveInTheTimeRoom?.Invoke(currentTMessages);
+        }
+        
+        
+        private void InsideOfThisRoom()
         {
 
             if (nextMessagePlease && Input.GetKeyDown(KeyCode.E)) // Will only activate if I am in the collider and the next message please is set true as well as me pressing the E on the keyboard.
@@ -99,6 +125,11 @@ namespace AlexzanderCowell
                 bottomText.text = ("Happens & Be Ready!").ToString();
             }
 
+        }
+
+        private void ResetTMessages(bool didRelocateToRRoom)
+        {
+            if (didRelocateToRRoom) currentTMessages = 0;
         }
     }      
 }

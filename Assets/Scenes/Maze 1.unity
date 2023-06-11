@@ -24202,7 +24202,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   bottomText: {fileID: 968397034}
   topText: {fileID: 968397033}
-  currentCMessages: 0
 --- !u!114 &968397033 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 28580636828947675, guid: eb49a8dcfa5ab604e90df83c4794695c,
@@ -30041,6 +30040,10 @@ GameObject:
   - component: {fileID: 1181770800}
   - component: {fileID: 1181770802}
   - component: {fileID: 1181770803}
+  - component: {fileID: 1181770804}
+  - component: {fileID: 1181770808}
+  - component: {fileID: 1181770806}
+  - component: {fileID: 1181770805}
   m_Layer: 0
   m_Name: Game Master
   m_TagString: Untagged
@@ -30061,8 +30064,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   countDownClockTxT: {fileID: 206316600}
-  currentTime: 0
-  timeIsUp: 0
   character: {fileID: 177525173}
   timerRoom: {fileID: 153300677}
 --- !u!4 &1181770801
@@ -30114,6 +30115,64 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: e21d2b9bbc916774388ca85ee9863e6e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &1181770804
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1181770799}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0d15485d5cb556346a464655b0585f51, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  topTrainingText: {fileID: 1819878951}
+  bottomTrainingText: {fileID: 1860983841}
+--- !u!114 &1181770805
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1181770799}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: dd9f9345e99592c498e0e30fbd4ce21d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _mainGameSound: {fileID: 2098562564}
+  _jumpSounds: {fileID: 2072572106}
+  _timeSounds: {fileID: 1223757681}
+  _rocketTimeSounds: {fileID: 2118662859}
+--- !u!114 &1181770806
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1181770799}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 576ec004bf5616d41a9b50f9e9cc8e09, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  inGameMenuStart: {fileID: 1180066399}
+  soundOnYes: {fileID: 689219390}
+  soundOnNo: {fileID: 1346353024}
+  soundIsWhat: {fileID: 1528266561}
+--- !u!114 &1181770808
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1181770799}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: efe6a6a62fc0bd34fa4844e7bbb55db5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!1 &1188856504
@@ -52010,17 +52069,17 @@ PrefabInstance:
     - target: {fileID: 7915425007897876260, guid: 23b3ece16d88a9a47912cc5e1c7843b6,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: 139.48
+      value: 80.8
       objectReference: {fileID: 0}
     - target: {fileID: 7915425007897876260, guid: 23b3ece16d88a9a47912cc5e1c7843b6,
         type: 3}
       propertyPath: m_LocalPosition.y
-      value: 8.75
+      value: 56.7
       objectReference: {fileID: 0}
     - target: {fileID: 7915425007897876260, guid: 23b3ece16d88a9a47912cc5e1c7843b6,
         type: 3}
       propertyPath: m_LocalPosition.z
-      value: 100.07
+      value: 145.9
       objectReference: {fileID: 0}
     - target: {fileID: 7915425007897876260, guid: 23b3ece16d88a9a47912cc5e1c7843b6,
         type: 3}
@@ -52182,6 +52241,11 @@ PrefabInstance:
       propertyPath: bottomTrainingText
       value: 
       objectReference: {fileID: 1860983841}
+    - target: {fileID: 7915425007897876261, guid: 23b3ece16d88a9a47912cc5e1c7843b6,
+        type: 3}
+      propertyPath: resetSpawnPosition
+      value: 
+      objectReference: {fileID: 1489124108}
     - target: {fileID: 7915425008007362254, guid: 23b3ece16d88a9a47912cc5e1c7843b6,
         type: 3}
       propertyPath: m_IsActive

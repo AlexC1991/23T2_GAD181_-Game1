@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 
 namespace AlexzanderCowell
@@ -20,7 +21,19 @@ namespace AlexzanderCowell
         private void Start()
         {
             currentTime = maxTimer; // Current Time will always start off being equal to the max time.
+            sBoots = false;
         }
+
+        private void OnEnable()
+        {
+            RocketRoomTrainer._CharactersBootsNeedSpawning += TrainerNeedsTheirBootsCalled;
+        }
+
+        private void OnDisable()
+        {
+            RocketRoomTrainer._CharactersBootsNeedSpawning -= TrainerNeedsTheirBootsCalled;
+        }
+
         private void Update()
         {
             int secretArea = UnityEngine.Random.Range(0, spawnList.Length); // A temporary int is to be used to hold the random range value that it spits out when going through all the spawn locations in the Array using the Array name .Length.  
@@ -28,33 +41,14 @@ namespace AlexzanderCowell
             if (currentTime < 0.2f && sBoots) // If current time is less then 0.2f and sBoots bool is true then it will allow the Instantiate to proceed and spawn the prefab.
             {
                 Instantiate(bootsToSpawn, spawnList[secretArea].transform.position, Quaternion.identity); // Spawns the prefab using the spawnList Array with secretArea being the choice in Array as to which spawn point.
-                
                 currentTime = maxTimer; // Current timer will then re equal the max timer to reset.
             }
             currentTime -= 0.8f * Time.deltaTime; // Current timer is minuses over a 0.8f per frame using Time.delta time.
-        } 
-
-        private void OnEnable() // Start of the Action Event.
-        {
-            CharacterMovement.StartSpawningThemBoots += GetSetAndSpawn; // Listens, waits and picks up the Action Event Character Movement script sent out. This is what tells sBoots to be true or false for spawning the rocket boots/shoes.
         }
 
-        private void OnDisable() // End of the Action Event.
+        private void TrainerNeedsTheirBootsCalled(bool canRelocateToMaze)
         {
-            CharacterMovement.StartSpawningThemBoots -= GetSetAndSpawn; // Stops listening to the Action Event Character Movement script sent out.
-        }
-
-        private void GetSetAndSpawn(bool spawnThemBootsSirPlease) // Uses the bool sent out via the Action Event.
-        {
-            if (spawnThemBootsSirPlease) // If this is true then says sBoots should be true too.
-            {
-                sBoots = true; // sBoots is now true due to spawnThemBootsSirPlease is true as well.
-            }
-            else
-            {
-                sBoots = false; // If spawnThemBootsSirPlease is not true and is false then sBoots are also false.
-            }
-            
+            if (canRelocateToMaze) sBoots = true;
         }
     }
     

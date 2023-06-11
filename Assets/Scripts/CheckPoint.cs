@@ -23,7 +23,7 @@ namespace AlexzanderCowell
                     newSavePoint = false; // If there is no collision the new save point bool will always be false.
                 }
             }
-
+        
             private void NewSaveEvent() // Start Method for the Action Event.
             {
                 SaveHereInstead?.Invoke(newSavePoint); // The Action Event sends out the bool for the Character Movement script to catch it and use the bool that is used in this script.

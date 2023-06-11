@@ -21,12 +21,10 @@ namespace AlexzanderCowell
                 moreTimeAdded = false; // Player dose not collide with it making the bool false.
             }
         }
-
         private void MoreTimePlease() // Start Method for the Action Event.
         {
             addMoreTime?.Invoke(moreTimeAdded); // Sends out the Action Event for the time script to catch and use the bool that is turning on/off for adding more time with the collision above.
         }
-
         private void Update()
         {
             transform.Rotate(Vector3.forward *spiningSpeed * Time.deltaTime); // Rotates the GameObject on the Z Axis making it spin in place. 
