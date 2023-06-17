@@ -41,9 +41,7 @@ namespace AlexzanderCowell
 
             private void Update()
             {
-                if (_timerRoom.currentTMessages == 11 && character.insideOfRocketRoom == false &&
-                    character.insideOfCheckPointRoom ==
-                    false) // Conditions are for the training rooms to make sure they don't start the count down while in the training rooms only in the time room it allows but when it counts to 11 messages in total first.
+                if (_timerRoom.currentTMessages == 11 && character.insideOfRocketRoom == false && character.insideOfCheckPointRoom == false) // Conditions are for the training rooms to make sure they don't start the count down while in the training rooms only in the time room it allows but when it counts to 11 messages in total first.
                 {
                     StartCountingDown(); // Starts the timer method.
                 }
