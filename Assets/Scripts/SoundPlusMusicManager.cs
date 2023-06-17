@@ -20,8 +20,8 @@ namespace AlexzanderCowell
 
         private void OnEnable()
         {
-            SpawnLocations.mainMazeRoomEvent += MazeMusic;
-            ClockObject.addMoreTime += ClockSounds;
+            SpawnLocations.MainMazeRoomEvent += MazeMusic;
+            ClockObject.AddMoreTime += ClockSounds;
             CharacterMovement.ActivateRocketBootStateEvent += RocketSounds;
             CharacterMovement.PlayerIsCurrentlyJumpingEvent += JumpSoundsStart;
         }
@@ -80,8 +80,8 @@ namespace AlexzanderCowell
         }
         private void OnDisable()
         {
-            SpawnLocations.mainMazeRoomEvent -= MazeMusic;
-            ClockObject.addMoreTime -= ClockSounds;
+            SpawnLocations.MainMazeRoomEvent -= MazeMusic;
+            ClockObject.AddMoreTime -= ClockSounds;
             CharacterMovement.ActivateRocketBootStateEvent -= RocketSounds;
             CharacterMovement.PlayerIsCurrentlyJumpingEvent -= JumpSoundsStart;
         }

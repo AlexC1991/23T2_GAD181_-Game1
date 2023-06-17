@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -13,40 +14,27 @@ namespace AlexzanderCowell
         private readonly int _maxMessages = 11; // Sets a max message limit for the clamp used underneath.
         [HideInInspector]
         public int currentTMessages; // Current message count for what message is at what and keeps the dialog going. It's used in the Character Movement script as well to allow the player to do stuff at the end.
-<<<<<<< Updated upstream
+        private bool _yesHeIs;
+        public static event Action<int> LetTheCharacterMoveInTheTimeRoom ;
 
 
         private void OnTriggerEnter(Collider other) // Detects when the something named other enters the collider.
         {
             if (other.CompareTag("Player")) // Gives the other a name to look for when it collides with it. In this instance it's the GameObject that has the tag in unity called Player.
             {
-                nextMessagePlease = true; // Player collides with it making the bool true.
             }
             else
             {
-                nextMessagePlease = false; // Player dose not collide with it making the bool false.
             }
         }
-        private void Update()
-        {
-=======
-        private bool _yesHeIs;
-        public static event Action<int> letTheCharacterMoveInTheTimeRoom ;
-        
         private void OnEnable()
         {
-            SpawnLocations.timerRoomEvent += IsHeInsideOfTRoom;
+            SpawnLocations.TimerRoomEvent += IsHeInsideOfTRoom;
             CharacterMovement.ResetTCurrentMessageEvent += ResetTMessages;
         }
         private void Start()
         {
             currentTMessages = 0;
-        }
-        private void OnTriggerEnter(Collider other) // Detects when the something named other enters the collider.
-        {
-            _nextMessagePlease = other.CompareTag("Player"); // Player collides with it making the bool true.
-            // Gives the other a name to look for when it collides with it. In this instance it's the GameObject that has the tag in unity called Player.
-            // Player dose not collide with it making the bool false.
         }
         private void IsHeInsideOfTRoom(bool insideOfTimerRoom)
         {
@@ -56,14 +44,11 @@ namespace AlexzanderCowell
         {
             Debug.Log("Current Timer Room Message " + currentTMessages);
             if (_nextMessagePlease && _yesHeIs) InsideOfThisRoom();
-            letTheCharacterMoveInTheTimeRoom?.Invoke(currentTMessages);
+            LetTheCharacterMoveInTheTimeRoom?.Invoke(currentTMessages);
         }
-        
-        
         private void InsideOfThisRoom()
         {
             checkRoom._currentCMessages = 0;
->>>>>>> Stashed changes
 
             if (_nextMessagePlease && Input.GetKeyDown(KeyCode.E)) // Will only activate if I am in the collider and the next message please is set true as well as me pressing the E on the keyboard.
             {
@@ -138,19 +123,15 @@ namespace AlexzanderCowell
             }
 
         }
-<<<<<<< Updated upstream
-=======
-
         private void ResetTMessages(bool didRelocateToRRoom)
         {
             if (didRelocateToRRoom) currentTMessages = 0;
         }
         private void OnDisable()
         {
-            SpawnLocations.timerRoomEvent -= IsHeInsideOfTRoom;
+            SpawnLocations.TimerRoomEvent -= IsHeInsideOfTRoom;
             CharacterMovement.ResetTCurrentMessageEvent -= ResetTMessages;
         }
->>>>>>> Stashed changes
     }      
 }
 

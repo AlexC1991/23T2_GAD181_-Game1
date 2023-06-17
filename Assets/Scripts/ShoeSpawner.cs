@@ -15,12 +15,6 @@ namespace AlexzanderCowell
         {
             spawnList = GameObject.FindGameObjectsWithTag("SpawnPoint"); // Grabs all the rocket boot/shoe spawn locations that are tagged with SpawnPoint and puts them in the Array.
         }
-<<<<<<< Updated upstream
-
-        private void Start()
-        {
-            currentTime = maxTimer; // Current Time will always start off being equal to the max time.
-=======
         private void OnEnable()
         {
             CharacterMovement.ResetRCurrentMessageEvent += TrainerNeedsTheirBootsCalled;
@@ -29,7 +23,6 @@ namespace AlexzanderCowell
         {
             _currentTime = _maxTimer; // Current Time will always start off being equal to the max time.
             _sBoots = false;
->>>>>>> Stashed changes
         }
         private void Update()
         {
@@ -39,47 +32,18 @@ namespace AlexzanderCowell
             if (_currentTime < 0.2f && _sBoots) // If current time is less then 0.2f and sBoots bool is true then it will allow the Instantiate to proceed and spawn the prefab.
             {
                 Instantiate(bootsToSpawn, spawnList[secretArea].transform.position, Quaternion.identity); // Spawns the prefab using the spawnList Array with secretArea being the choice in Array as to which spawn point.
-<<<<<<< Updated upstream
-                
-                currentTime = maxTimer; // Current timer will then re equal the max timer to reset.
-            }
-            currentTime -= 0.8f * Time.deltaTime; // Current timer is minuses over a 0.8f per frame using Time.delta time.
-        } 
 
-        private void OnEnable() // Start of the Action Event.
-        {
-            CharacterMovement.StartSpawningThemBoots += GetSetAndSpawn; // Listens, waits and picks up the Action Event Character Movement script sent out. This is what tells sBoots to be true or false for spawning the rocket boots/shoes.
-        }
-
-        private void OnDisable() // End of the Action Event.
-        {
-            CharacterMovement.StartSpawningThemBoots -= GetSetAndSpawn; // Stops listening to the Action Event Character Movement script sent out.
-        }
-
-        private void GetSetAndSpawn(bool spawnThemBootsSirPlease) // Uses the bool sent out via the Action Event.
-        {
-            if (spawnThemBootsSirPlease) // If this is true then says sBoots should be true too.
-            {
-                sBoots = true; // sBoots is now true due to spawnThemBootsSirPlease is true as well.
-            }
-            else
-            {
-                sBoots = false; // If spawnThemBootsSirPlease is not true and is false then sBoots are also false.
-            }
-            
-=======
                 _currentTime = _maxTimer; // Current timer will then re equal the max timer to reset.
             }
             _currentTime -= 0.8f * Time.deltaTime; // Current timer is minuses over a 0.8f per frame using Time.delta time.
         }
-        private void TrainerNeedsTheirBootsCalled(bool _didRelocateToMazeRoom)
+        private void TrainerNeedsTheirBootsCalled(bool didRelocateToMazeRoom)
         {
-            if (_didRelocateToMazeRoom) _sBoots = true;
+            if (didRelocateToMazeRoom) _sBoots = true;
         }
         private void OnDisable()
         {
             CharacterMovement.ResetRCurrentMessageEvent -= TrainerNeedsTheirBootsCalled;
->>>>>>> Stashed changes
         }
     }
     

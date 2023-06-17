@@ -564,6 +564,7 @@ GameObject:
   - component: {fileID: 7915425007897876260}
   - component: {fileID: 7915425007897876261}
   - component: {fileID: 7915425007897876263}
+  - component: {fileID: 6198291035568184321}
   m_Layer: 0
   m_Name: BrunoCharacter
   m_TagString: Player
@@ -600,15 +601,38 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   timeScript: {fileID: 0}
+  roomRScript: {fileID: 0}
+  timeRoomS: {fileID: 0}
+  checkRoomPoint: {fileID: 0}
+  testCheck: {fileID: 0}
   runSpeed: 8
   maxRunSpeed: 12
   jumpHeight: 3
-  maxJumpHeight: 5
+  startPosition: {fileID: 0}
+  timeSpawnPoint: {fileID: 0}
+  rocketSpawnPoint: {fileID: 0}
+  checkSpawnPoint: {fileID: 0}
+  insideOfRocketRoom: 0
+  insideOfCheckPointRoom: 0
   controller: {fileID: 7915425007897876263}
   mouseSensitivity: 5
-  startPostion: {fileID: 0}
   characterGravity: 20
   moreTime: 0
+  respawnStart: 0
+  currentTries: 0
+  counterText: {fileID: 0}
+  beforeItStarts: {fileID: 0}
+  inGameMenuStart: {fileID: 0}
+  soundOnYes: {fileID: 0}
+  soundOnNo: {fileID: 0}
+  soundIsWhat: {fileID: 0}
+  whatIsText: {fileID: 0}
+  topTrainingText: {fileID: 0}
+  bottomTrainingText: {fileID: 0}
+  _mainGameSound: {fileID: 0}
+  _jumpSounds: {fileID: 0}
+  _timeSounds: {fileID: 0}
+  _rocketTimeSounds: {fileID: 0}
 --- !u!143 &7915425007897876263
 CharacterController:
   m_ObjectHideFlags: 0
@@ -627,6 +651,19 @@ CharacterController:
   m_SkinWidth: 0.08
   m_MinMoveDistance: 0.001
   m_Center: {x: 0.38, y: -1.7, z: 0}
+--- !u!65 &6198291035568184321
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7915425007897876259}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 1.36, y: 4.77, z: 1.06}
+  m_Center: {x: -0.09, y: -2.19, z: 0}
 --- !u!1 &7915425007985887177
 GameObject:
   m_ObjectHideFlags: 0

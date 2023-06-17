@@ -17,10 +17,10 @@ namespace AlexzanderCowell
         [SerializeField] private GameObject topTrainingTextOnOff;
         [SerializeField] private GameObject bottomTrainingTextOnOff;
 
-        public static event Action<bool> checkPointRoomEvent;
-        public static event Action<bool> timerRoomEvent;
-        public static event Action<bool> rocketBootRoomEvent;
-        public static event Action<bool> mainMazeRoomEvent;
+        public static event Action<bool> CheckPointRoomEvent;
+        public static event Action<bool> TimerRoomEvent;
+        public static event Action<bool> RocketBootRoomEvent;
+        public static event Action<bool> MainMazeRoomEvent;
         private void OnEnable()
         {
             TimerScript.RelocateToRocketRoomEvent += RocketTrainingStartsNow;
@@ -33,10 +33,10 @@ namespace AlexzanderCowell
         }
         private void Update()
         {
-            checkPointRoomEvent?.Invoke(_insideOfCheckPointRoom);
-            timerRoomEvent?.Invoke(_insideOfTimerRoom);
-            rocketBootRoomEvent?.Invoke(_insideOfRocketRoom);
-            mainMazeRoomEvent?.Invoke(_insideOfMainMazeRoom);
+            CheckPointRoomEvent?.Invoke(_insideOfCheckPointRoom);
+            TimerRoomEvent?.Invoke(_insideOfTimerRoom);
+            RocketBootRoomEvent?.Invoke(_insideOfRocketRoom);
+            MainMazeRoomEvent?.Invoke(_insideOfMainMazeRoom);
         }
         public void TimeSpawnRoom()
         {

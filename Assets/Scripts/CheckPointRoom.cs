@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -7,52 +8,34 @@ namespace AlexzanderCowell
     {
         [SerializeField] private Text bottomText; // Text that sits at the bottom of the UI Screen that is located on the trainer.
         [SerializeField] private Text topText; // Text that sits at the top of the UI Screen that is located on the trainer.
-<<<<<<< Updated upstream
-        private bool nextMessagePlease; // Transfers a bool to allow the KeyCode E to be pressed from the collider.
-        private int maxMessages = 13; // Sets a max message limit for the clamp used underneath.
         [HideInInspector]
         public int currentCMessages; // Current message count for what message is at what and keeps the dialog going. It's used in the Character Movement script as well to allow the player to do stuff at the end.
-
-        private void OnTriggerEnter(Collider other) // Detects when the something named other enters the collider.
-        {
-            if (other.CompareTag("Player")) // Gives the other a name to look for when it collides with it. In this instance it's the GameObject that has the tag in unity called Player.
-            {
-                nextMessagePlease = true; // Player collides with it making the bool true.
-            }
-            else
-            {
-                nextMessagePlease = false; // Player dose not collide with it making the bool false.
-            }
-        }
-        private void Update()
-        {
-=======
+        public static event Action<int> LetTheCharacterMoveInCheckPointRoom; 
         private bool _nextMessagePlease; // Transfers a bool to allow the KeyCode E to be pressed from the collider.
         private readonly int _maxMessages = 13; // Sets a max message limit for the clamp used underneath.
-       [HideInInspector] public int _currentCMessages; // Current message count for what message is at what and keeps the dialog going. It's used in the Character Movement script as well to allow the player to do stuff at the end.
+        [HideInInspector] public int _currentCMessages; // Current message count for what message is at what and keeps the dialog going. It's used in the Character Movement script as well to allow the player to do stuff at the end.
         private bool _yesHeIs;
-        public static event Action<int> letTheCharacterMoveInCheckPointRoom; 
-
-        private void OnEnable()
-        {
-            SpawnLocations.checkPointRoomEvent += IsHeInsideOfCRoom;
-            CharacterMovement.ResetCCurrentMessageEvent += ResetCheckPointMessages;
-        }
-        private void Start()
-        {
-            _currentCMessages = 0;
-        }
+        
         private void OnTriggerEnter(Collider other) // Detects when the something named other enters the collider.
         {
             _nextMessagePlease = other.CompareTag("Player"); // Player collides with it making the bool true.
             // Gives the other a name to look for when it collides with it. In this instance it's the GameObject that has the tag in unity called Player.
             // Player dose not collide with it making the bool false.
         }
+        private void OnEnable()
+        {
+            SpawnLocations.CheckPointRoomEvent += IsHeInsideOfCRoom;
+            CharacterMovement.ResetCCurrentMessageEvent += ResetCheckPointMessages;
+        }
+        private void Start()
+        {
+            _currentCMessages = 0;
+        }
         private void Update()
         {
             Debug.Log("Current CheckPoint Room Message " + _currentCMessages);
             if (_nextMessagePlease && _yesHeIs) InsideOfThisRoom();
-            letTheCharacterMoveInCheckPointRoom?.Invoke(_currentCMessages);
+            LetTheCharacterMoveInCheckPointRoom?.Invoke(_currentCMessages);
         }
         private void IsHeInsideOfCRoom(bool insideOfCheckPointRoom)
         {
@@ -60,7 +43,6 @@ namespace AlexzanderCowell
         }
         private void InsideOfThisRoom()
         {
->>>>>>> Stashed changes
 
             if (_nextMessagePlease && Input.GetKeyDown(KeyCode.E)) // Will only activate if I am in the collider and the next message please is set true as well as me pressing the E on the keyboard.
             {
@@ -145,19 +127,15 @@ namespace AlexzanderCowell
                 topText.text = ("To Get Lost!.");
                 bottomText.text = ("Try It Out.");
             }
-
         }
-<<<<<<< Updated upstream
-=======
         private void ResetCheckPointMessages(bool didRelocateToTRoom)
         {
             if (didRelocateToTRoom) _currentCMessages = 0;
         }
         private void OnDisable()
         {
-            SpawnLocations.checkPointRoomEvent -= IsHeInsideOfCRoom;
+            SpawnLocations.CheckPointRoomEvent -= IsHeInsideOfCRoom;
             CharacterMovement.ResetCCurrentMessageEvent -= ResetCheckPointMessages;
         }
->>>>>>> Stashed changes
     }      
 }

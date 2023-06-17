@@ -1,6 +1,6 @@
+using System;
 using UnityEngine;
 using UnityEngine.UI;
-using UnityEngine.SceneManagement;
 
 namespace AlexzanderCowell
 {
@@ -15,47 +15,29 @@ namespace AlexzanderCowell
         private bool _nextMessagePlease; // Transfers a bool to allow the KeyCode E to be pressed from the collider.
         private readonly int _maxMessages = 11; // Sets a max message limit for the clamp used underneath.
         private bool _hasSpawned; // Checks to make sure only 1 instance of the spawned boots is sent and not multiple when message 9 is the current message count.
-        [HideInInspector]
-        public int currentRMessages; // Current message count for what message is at what and keeps the dialog going. It's used in the Character Movement script as well to allow the player to do stuff at the end.
-<<<<<<< Updated upstream
-
-        private void OnTriggerEnter(Collider other) // Detects when the something named other enters the collider.
-        {
-            if (other.CompareTag("Player")) // Gives the other a name to look for when it collides with it. In this instance it's the GameObject that has the tag in unity called Player.
-            {
-                nextMessagePlease = true; // Player collides with it making the bool true.
-            }
-            else
-            {
-                nextMessagePlease = false; // Player dose not collide with it making the bool false.
-            }
-        }
-        private void Update()
-        {
-            if (nextMessagePlease && Input.GetKeyDown(KeyCode.E)) // Will only activate if I am in the collider and the next message please is set true as well as me pressing the E on the keyboard.
-=======
         private bool _yesHeIs;
         [HideInInspector] public bool canRelocateToMaze;
         private float _countDownBegins;
         private float _originalCountDownTimer;
-        
-        public static event Action<int> letTheCharacterMoveInTheRocketRoom; 
-        public static event Action<bool> charactersBootsNeedSpawning;
+        [HideInInspector]
+        public int currentRMessages; // Current message count for what message is at what and keeps the dialog going. It's used in the Character Movement script as well to allow the player to do stuff at the end.
+        public static event Action<int> LetTheCharacterMoveInTheRocketRoom; 
+        public static event Action<bool> CharactersBootsNeedSpawning;
+        private void OnTriggerEnter(Collider other) // Detects when the something named other enters the collider.
+        {
+            _nextMessagePlease = other.CompareTag("Player"); // Player collides with it making the bool true.
+            // Gives the other a name to look for when it collides with it. In this instance it's the GameObject that has the tag in unity called Player.
+            // Player dose not collide with it making the bool false.
+        }
         private void OnEnable()
         {
-            SpawnLocations.rocketBootRoomEvent += IsHeInsideOfRRoom;
+            SpawnLocations.RocketBootRoomEvent += IsHeInsideOfRRoom;
         }
         private void Start()
         {
             currentRMessages = 0;
             _countDownBegins = 6;
             _originalCountDownTimer = _countDownBegins;
-        }
-        private void OnTriggerEnter(Collider other) // Detects when the something named other enters the collider.
-        {
-            _nextMessagePlease = other.CompareTag("Player"); // Player collides with it making the bool true.
-            // Gives the other a name to look for when it collides with it. In this instance it's the GameObject that has the tag in unity called Player.
-            // Player dose not collide with it making the bool false.
         }
         private void IsHeInsideOfRRoom(bool insideOfRocketRoom)
         {
@@ -65,8 +47,8 @@ namespace AlexzanderCowell
         {
             Debug.Log("Current Rocket Room Message " + currentRMessages);
             if (_nextMessagePlease && _yesHeIs) InsideOfThisRoom();
-            letTheCharacterMoveInTheRocketRoom?.Invoke(currentRMessages);
-            charactersBootsNeedSpawning?.Invoke(canRelocateToMaze);
+            LetTheCharacterMoveInTheRocketRoom?.Invoke(currentRMessages);
+            CharactersBootsNeedSpawning?.Invoke(canRelocateToMaze);
         }
         private void InsideOfThisRoom()
         {
@@ -74,7 +56,6 @@ namespace AlexzanderCowell
             canRelocateToMaze = false;
             
             if (_nextMessagePlease && Input.GetKeyDown(KeyCode.E)) // Will only activate if I am in the collider and the next message please is set true as well as me pressing the E on the keyboard.
->>>>>>> Stashed changes
             {
                 _countDownBegins = _originalCountDownTimer;
                 currentRMessages = Mathf.Clamp(currentRMessages +1, 0, _maxMessages); // Keeps the current R messages from going further then the max messages and only increment by +1 with the min value to start is 0.
@@ -148,16 +129,8 @@ namespace AlexzanderCowell
             
             if (currentRMessages == 11) // If the current R messages is equal to 11 it will play the text provided in the top & bottom text followed by a to string at the end to send it as a string which is a text format
             {
-<<<<<<< Updated upstream
-                topText.text = ("Proceed To The").ToString();
-                bottomText.text = ("Main Game!..").ToString();
-            }
-
-        }
-=======
                 topText.text = ("Proceed To The");
                 bottomText.text = ("Main Game!..");
-
                 _countDownBegins -= 0.7f * Time.deltaTime;
 
                 if (_countDownBegins < 0.2f)
@@ -166,14 +139,11 @@ namespace AlexzanderCowell
                     _countDownBegins = _originalCountDownTimer;
                     currentRMessages = 0;
                 }
-
             }
-
         }
         private void OnDisable()
         {
-            SpawnLocations.rocketBootRoomEvent -= IsHeInsideOfRRoom;
+            SpawnLocations.RocketBootRoomEvent -= IsHeInsideOfRRoom;
         }
->>>>>>> Stashed changes
     }      
 }
