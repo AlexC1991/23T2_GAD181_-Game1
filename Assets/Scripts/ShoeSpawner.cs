@@ -26,7 +26,6 @@ namespace AlexzanderCowell
         }
         private void Update()
         {
-            Debug.Log("Spawn Boot Bool " + _sBoots);
             int secretArea = Random.Range(0, spawnList.Length); // A temporary int is to be used to hold the random range value that it spits out when going through all the spawn locations in the Array using the Array name .Length.  
             
             if (_currentTime < 0.2f && _sBoots) // If current time is less then 0.2f and sBoots bool is true then it will allow the Instantiate to proceed and spawn the prefab.

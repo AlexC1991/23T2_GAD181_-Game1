@@ -20,15 +20,14 @@ namespace AlexzanderCowell
         private TimeRoomScript _timerRoom;
         private float _finishTime;
         private bool _resetLocation;
-        [FormerlySerializedAs("_goToRocketTraining")] [HideInInspector] public bool goToRocketTraining;
+        [HideInInspector] public bool goToRocketTraining;
         public static event Action<bool> RelocateToRocketRoomEvent;
         public static event Action<bool> RespawnToCheckPointEvent;
 
             private void Awake()
             {
                 timeIsUp = false; // Time being up is false before starting the game from not allowing the timer to continue.
-                currentTime =
-                    _startTime; // Makes the current time always equal the start time when starting the scene this script is in.
+                currentTime =_startTime; // Makes the current time always equal the start time when starting the scene this script is in.
             }
 
             private void OnEnable()
@@ -41,10 +40,10 @@ namespace AlexzanderCowell
 
             private void Update()
             {
-                if (_timerRoom.currentTMessages == 11 && character.insideOfRocketRoom == false && character.insideOfCheckPointRoom == false) // Conditions are for the training rooms to make sure they don't start the count down while in the training rooms only in the time room it allows but when it counts to 11 messages in total first.
-                {
+                /*if (_timerRoom.currentTMessages == 11 && character.insideOfRocketRoom == false && character.insideOfCheckPointRoom == false) // Conditions are for the training rooms to make sure they don't start the count down while in the training rooms only in the time room it allows but when it counts to 11 messages in total first.
+                {*/
                     StartCountingDown(); // Starts the timer method.
-                }
+                /*}*/
 
                 countDownClockTxT.text =
                     (currentTime)
@@ -56,7 +55,7 @@ namespace AlexzanderCowell
                     currentTime = _startTime; // The clock time will reset back to the start time.
                 }
 
-                if (currentTime < _finishTime) // Asks if the current time is less then the finish time and if so it starts the function.
+                if (currentTime < 0.2f) // Asks if the current time is less then the finish time and if so it starts the function.
                 {
                     _resetLocation = true;
                     currentTime = _startTime; // The clock time will reset back to the start time.

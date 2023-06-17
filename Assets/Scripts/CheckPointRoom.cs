@@ -33,7 +33,6 @@ namespace AlexzanderCowell
         }
         private void Update()
         {
-            Debug.Log("Current CheckPoint Room Message " + _currentCMessages);
             if (_nextMessagePlease && _yesHeIs) InsideOfThisRoom();
             LetTheCharacterMoveInCheckPointRoom?.Invoke(_currentCMessages);
         }

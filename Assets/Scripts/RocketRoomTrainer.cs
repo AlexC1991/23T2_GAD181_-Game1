@@ -45,7 +45,6 @@ namespace AlexzanderCowell
         }
         private void Update()
         {
-            Debug.Log("Current Rocket Room Message " + currentRMessages);
             if (_nextMessagePlease && _yesHeIs) InsideOfThisRoom();
             LetTheCharacterMoveInTheRocketRoom?.Invoke(currentRMessages);
             CharactersBootsNeedSpawning?.Invoke(canRelocateToMaze);

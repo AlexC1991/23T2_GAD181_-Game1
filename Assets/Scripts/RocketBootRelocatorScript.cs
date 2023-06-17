@@ -13,6 +13,7 @@ namespace AlexzanderCowell
         private void Update()
         {
             GetComponent<ParticleSystem>().Play(); // Once this GameObject is spawned in it will play the particle system I have made for the Prefab.
+            
             if (_gameManag.GetComponent<RocketSpawnController>().currentBootTimer < 0.2f)
             {
                 gameObject.SetActive(false);
