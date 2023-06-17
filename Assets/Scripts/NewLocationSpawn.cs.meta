@@ -1,18 +1,15 @@
 fileFormatVersion: 2
-guid: 735dbec893c3674488b60f77c3cdcfd1
+guid: 41acbf1c03fb616468020ff2ebb75730
 MonoImporter:
   externalObjects: {}
   serializedVersion: 2
   defaultReferences:
-  - timeS: {instanceID: 0}
   - timeRoomSpawn: {fileID: 11400000, guid: 965402fce30ca1544a854e9ddeb982fb, type: 2}
   - startRoomSpawn: {fileID: 11400000, guid: 60ba26e472d118b4ba86a8db2d065b6b, type: 2}
   - checkPointRoomSpawn: {fileID: 11400000, guid: 7ec489d9ecda28546b8301fd7d7c2ba3,
       type: 2}
   - rocketRoomSpawn: {fileID: 11400000, guid: f654ff73dc8b8284aa773a85c29359e5, type: 2}
-  - startScreen: {instanceID: 0}
-  - resetSpawnPosition: {instanceID: 0}
-  - controller: {instanceID: 0}
+  - characterCon: {instanceID: 0}
   executionOrder: 0
   icon: {instanceID: 0}
   userData: 

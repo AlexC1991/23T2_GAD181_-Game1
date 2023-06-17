@@ -4,9 +4,19 @@ namespace AlexzanderCowell
 {
     public class RocketBootRelocatorScript : MonoBehaviour
     {
+        private GameObject gameManag;
+        private void Start()
+        {
+            gameManag = GameObject.FindWithTag("GameManager");
+        }
+
         private void Update()
         {
             GetComponent<ParticleSystem>().Play(); // Once this GameObject is spawned in it will play the particle system I have made for the Prefab.
+            if (gameManag.GetComponent<RocketSpawnController>()._currentBootTimer < 0.2f)
+            {
+                gameObject.SetActive(false);
+            }
         }
 
         private void OnEnable() // Start of the Action Event.

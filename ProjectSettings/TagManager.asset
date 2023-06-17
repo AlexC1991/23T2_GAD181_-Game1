@@ -12,6 +12,12 @@ TagManager:
   - RocketBoots
   - SpawnPoint
   - TestingSpawnPoint
+  - ResetSpawnPoint
+  - StartSpawnPoint
+  - TimerSpawnPoint
+  - RocketSpawnPoint
+  - CheckPointSpawnPoint
+  - GameManager
   layers:
   - Default
   - TransparentFX

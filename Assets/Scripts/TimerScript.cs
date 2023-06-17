@@ -3,6 +3,7 @@ using UnityEngine.UI;
 
 namespace AlexzanderCowell
 {
+<<<<<<< Updated upstream
 
 public class TimerScript : MonoBehaviour
 {
@@ -21,6 +22,23 @@ public class TimerScript : MonoBehaviour
     [SerializeField] private TimeRoomScript timerRoom; // For using public variables & Functions inside of this script from the Time Room Script script.
     
 
+=======
+    public class TimerScript : MonoBehaviour
+    {
+        [Header("Text"), SerializeField]  private Text countDownClockTxT; // Grabs the text used on the clock to display the countdown.
+    [HideInInspector] public float startTime = 10; // Starting clock time and max time.
+    [HideInInspector] public float currentTime; // Current Time that is used inside of the timer. This holds whatever is currently the time is at. 
+    private readonly float _finishTime = 0; // End time for the clock and used to indicate when it reaches 0 this is the min for the current time.
+    [HideInInspector] public bool timeIsUp; // Used to indicate when the time is finished to be used in the Character Movement when to go back to the checkpoint.
+    private bool _resetLocation;
+    [HideInInspector] public bool goToRocketTraining;
+    
+    [Header("Scripts")] 
+    [SerializeField] private CharacterMovement character; // For using public variables & Functions inside of this script from the Character Movement script.
+
+    public static event Action<bool> RelocateToRocketRoomEvent;
+    public static event Action<bool> respawnToCheckPointEvent; 
+>>>>>>> Stashed changes
     private void Awake()
     {
         timeIsUp = false; // Time being up is false before starting the game from not allowing the timer to continue.
@@ -29,7 +47,14 @@ public class TimerScript : MonoBehaviour
 
     private void Start()
     {
+<<<<<<< Updated upstream
         previousTime = currentTime; // Previous time will always be the backup time of the current time so will equal the current time from the start.
+=======
+        SpawnLocations.checkPointRoomEvent += TimerStopsMovingCheckPointRoom;
+        SpawnLocations.mainMazeRoomEvent += TimeContinuesToMoveInMaze;
+        TimeRoomScript.letTheCharacterMoveInTheTimeRoom += TimeIsOnForTesting;
+        ClockObject.addMoreTime += AddExtraTime;
+>>>>>>> Stashed changes
     }
     private void Update()
     {
@@ -53,6 +78,7 @@ public class TimerScript : MonoBehaviour
             StartCountingDown(); // Starts the timer method.
         }
         
+<<<<<<< Updated upstream
         countDownClockTxT.text = (currentTime).ToString("F0"); // Grabs the clock text and adds in what the current time is. reading but because its a float and not a int we use F zero to bring it to displaying only 2 digits on the clock.
 
         if (currentTime < finishTime) // Asks if the current time is less then the finish time and if so it starts the function.
@@ -60,6 +86,50 @@ public class TimerScript : MonoBehaviour
             timeIsUp = true; // The clock has hit 0 so the time is up will be true.
             currentTime = startTime; // The clock time will reset back to the start time.
             previousTime = currentTime; // Previous time will equal whatever the currentTime is.
+=======
+        if (currentTime < _finishTime) // Asks if the current time is less then the finish time and if so it starts the function.
+        {
+            _resetLocation = true;
+            currentTime = startTime; // The clock time will reset back to the start time.
+        }
+        respawnToCheckPointEvent?.Invoke(_resetLocation);
+        RelocateToRocketRoomEvent?.Invoke(goToRocketTraining);
+
+        if (currentTime == startTime)
+        {
+            _resetLocation = false;
+        }
+    }
+    private void AddExtraTime(bool moreTimeAdded)
+    {
+        if (moreTimeAdded) currentTime = startTime;
+    }
+    private void StartCountingDown() // Time count down method to execute the count down timer inside of it.
+    {
+        if (timeIsUp && character.resetRocketRoomCounter && character.resetCheckPointRoomCounter)
+        {
+            currentTime -= 0.7f * Time.deltaTime; // Current times count down by 0.7f every frame times Time. Delta Time.
+        }
+    }
+    private void TimerStopsMovingCheckPointRoom(bool insideOfCheckPointRoom)
+    {
+        if (insideOfCheckPointRoom) timeIsUp = false;
+    }
+    private void TimeContinuesToMoveInMaze(bool insideOfMainMazeRoom)
+    {
+        if (insideOfMainMazeRoom) timeIsUp = true;
+    }
+    private void TimeIsOnForTesting(int currentTMessages)
+    {
+        if (currentTMessages == 11)
+        {
+            timeIsUp = true;
+            
+            if (currentTime < 5)
+            {
+                goToRocketTraining = true;
+            }
+>>>>>>> Stashed changes
         }
         
         if (character.moreTime == true) // Checks if the Character Movement script more time bool is true. If so it will give the clock in game more time. 
@@ -76,6 +146,12 @@ public class TimerScript : MonoBehaviour
     {
         currentTime -= 0.7f * Time.deltaTime; // Current times count down by 0.7f every frame times Time. Delta Time.
     }
-    
-}
+    private void OnDisable()
+    {
+        SpawnLocations.checkPointRoomEvent -= TimerStopsMovingCheckPointRoom;
+        SpawnLocations.mainMazeRoomEvent -= TimeContinuesToMoveInMaze;
+        TimeRoomScript.letTheCharacterMoveInTheTimeRoom -= TimeIsOnForTesting;
+        ClockObject.addMoreTime -= AddExtraTime;
+    }
+    }
 }

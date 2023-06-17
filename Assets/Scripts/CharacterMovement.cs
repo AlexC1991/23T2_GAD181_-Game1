@@ -7,20 +7,36 @@ namespace AlexzanderCowell
     public class CharacterMovement : MonoBehaviour
     {
         [Header("Scripts")] 
+<<<<<<< Updated upstream
         [SerializeField] private TimerScript timeScript; // Uses the TimerScript script in this script under timeScript.
         [SerializeField] private RocketRoomTrainer roomRScript; // Uses the RocketRoomTrainer script in this script under roomRScript.
         [SerializeField] private TimeRoomScript timeRoomS; // Uses the TimeRoomScript script in this script under timeRoomS.
         [SerializeField] private CheckPointRoom checkRoomPoint; // Uses the CheckPointRoom script in this script under checkRoomPoint.
         [SerializeField] private TestingCheckP testCheck; // Uses the TestingCheckP script in this script under testCheck.
+=======
+        [SerializeField] private TimerScript timeS;
+        [SerializeField] private SpawnLocations spawnLScript;
+        [SerializeField] private NewLocationSpawn newSpawn;
+>>>>>>> Stashed changes
         
+        [Header("Rocket Room Script"), SerializeField]
+        private RocketRoomTrainer rRoomScript;
+
+        [Header("StartUI")] 
+        [SerializeField] private GameObject startScreen;
+
         [Header("Character Run Speed")]
         [HideInInspector] public float runSpeed = 8f; // This is the run speed of the character this script is attached to.
         [SerializeField] private float maxRunSpeed = 12; // This is the max run speed which is used for the rocket boots/shoes in game.
-        private float originalRunSpeed; // This keeps the original run speed to return to when needed.
-        private bool timeToMoveFaster; // This Bool gives a yes/no for when you activate the rocket boots/shoes.
+        private float _originalRunSpeed; // This keeps the original run speed to return to when needed.
+        private bool _timeToMoveFaster; // This Bool gives a yes/no for when you activate the rocket boots/shoes.
 
         [Header("Character Jump Height")] 
         [SerializeField] private float jumpHeight = 3; // This is the jump height the character can jump up to.
+<<<<<<< Updated upstream
+=======
+        private bool _playerIsJumping;
+>>>>>>> Stashed changes
 
         [Header("SpawnLocations")]
         [SerializeField] private Transform startPosition; // This houses the start location for the character when it starts the main game.
@@ -36,6 +52,7 @@ namespace AlexzanderCowell
         [SerializeField] private float characterGravity = 20; // Sets the gravity for the character.
 
         [Header("Various Variables Used")]
+<<<<<<< Updated upstream
         [HideInInspector] public bool moreTime; // This gives a yes or no for if the player gets to have more time when collecting the clocks. This is public to be used in the Time Script.
         [HideInInspector] public bool respawnStart = false; // This is unused atm due to a bug issue preventing the character to reset correctly. I also have to add in a reset for the whole map.
         [HideInInspector] public int currentTries; // This is currently a bug as well which is supposed to count how many times you go back to a check point but unable to have the counter to work correctly in my development time frame.
@@ -360,8 +377,221 @@ namespace AlexzanderCowell
                 
                 moreTime = true; // If the character hits the clock in game it will allow the character to have more time.
                 _timeSounds.Play(); // This will make the hitting the clock sound effects.
+=======
+        private float _mouseXposition; // Gets the position of the mouse using the float values of its X position in the world.
+        private Vector3 _newPosition; // This sets a new position when going through the checkpoint system.
+        private Vector3 _moveDirection; // This gathers the move direction for when the character rotates and adjusts the position the character faces.
+        private float _moveHorizontal; // Speed of which the character moves in the Horizontal axis.
+        private float _moveVertical; // Speed of which the character moves in the Vertical axis.
+        private bool _didRelocateToTRoom;
+        private bool _didRelocateToRRoom;
+        private bool _didRelocateToMazeRoom;
+        private bool _canUseInGameMenu;
+        private bool _timeToRelocateToTRoom;
+        private bool _timeToRelocateToRRoom;
+        [HideInInspector] public bool resetTimeRoomCounter;
+        [HideInInspector] public bool resetCheckPointRoomCounter;
+        [HideInInspector] public bool resetRocketRoomCounter;
+
+        public static event Action<bool> ResetTCurrentMessageEvent; 
+        public static event Action<bool> ResetCCurrentMessageEvent; 
+        public static event Action<bool> ResetRCurrentMessageEvent;
+        public static event Action<bool> ActivateRocketBootStateEvent;
+        public static event Action<bool> PlayerIsCurrentlyJumpingEvent;
+        public static event Action<bool> UsingInGameMenuEvent;
+
+        private void OnEnable()
+        {
+            CheckPointRoom.letTheCharacterMoveInCheckPointRoom += CheckPointRoomMovementCheck;
+            TimeRoomScript.letTheCharacterMoveInTheTimeRoom += TimeRoomMovementCheck;
+            RocketRoomTrainer.letTheCharacterMoveInTheRocketRoom += RocketRoomMovementCheck;
+            TimerScript.respawnToCheckPointEvent += TimeReachZero;
+            TimerScript.RelocateToRocketRoomEvent += RelocateToRocketBootTrainingRoom;
+            TestingCheckP.relocateToTimeRoomEvent += RelocateToTimeTrainingRoom;
+            RocketSpawnController.resetTheSpeedOfCharacterEvent += RocketSpeedReset;
+            CheckPoint.SaveHereInstead += SaveNewCheckPointLocation;
+        }
+        private void Start()
+        {
+            StartGameMenuBeforeWeStart();
+            Time.timeScale = 0;
+            _canUseInGameMenu = false;
+            _originalRunSpeed = runSpeed;
+            runSpeed = 0;
+            _timeToMoveFaster = false;
+        }
+        public void StartTrainingRoom()
+        {
+            startScreen.SetActive(false);
+            RelocateToCheckPointRoom();
+        }
+        public void StartTheGame()
+        {
+            startScreen.SetActive(false);
+            StartInMazeRoom();
+        }
+        private void FixedUpdate()
+        {
+            if (_timeToRelocateToTRoom)
+            {
+                newSpawn.TimeTrainRoomSpawn();
+                runSpeed = 0;
+                spawnLScript.TimeSpawnRoom();
+                _didRelocateToTRoom = true;
+                _timeToRelocateToTRoom = false;
+                resetTimeRoomCounter = false;
+                resetRocketRoomCounter = true;
+                resetCheckPointRoomCounter = true;
+            }
+
+            if (_timeToRelocateToRRoom)
+            {
+                newSpawn.RocketSpawnRoom();
+                runSpeed = 0;
+                spawnLScript.RocketBootRoomSpawnPoint();
+                _didRelocateToRRoom = true;
+                _didRelocateToTRoom = false;
+                resetTimeRoomCounter = true;
+                resetRocketRoomCounter = false;
+                resetCheckPointRoomCounter = true;
+                _timeToRelocateToRRoom = false;
+            }
+        }
+        private void RelocateToCheckPointRoom()
+        {
+            Time.timeScale = 1;
+            newSpawn.CheckPointTrainRoomSpawn();
+            spawnLScript.CheckPointSpawnRoom();
+            resetTimeRoomCounter = true;
+            resetRocketRoomCounter = true;
+            resetCheckPointRoomCounter = false;
+            runSpeed = 0;
+        }
+        private void StartInMazeRoom()
+        {
+            Time.timeScale = 1;
+            newSpawn.StartSpawn();
+            spawnLScript.MainStartRoomSpawn();
+            rRoomScript.currentRMessages = 0;
+            _didRelocateToMazeRoom = true;
+            _didRelocateToRRoom = false;
+            resetTimeRoomCounter = true;
+            resetRocketRoomCounter = true;
+            resetCheckPointRoomCounter = true;
+            _canUseInGameMenu = true;
+            _newPosition = controller.transform.position;
+        }
+        private void RelocateToTimeTrainingRoom(bool playerTestingIt)
+        {
+            if (playerTestingIt)
+            {
+                _timeToRelocateToTRoom = true;
+                _didRelocateToTRoom = true;
+            }
+        }
+        private void RelocateToRocketBootTrainingRoom(bool goToRocketTraining)
+        {
+            if (goToRocketTraining)
+            {
+                timeS.timeIsUp = false;
+                timeS.currentTime = 10;
+                timeS.goToRocketTraining = false;
+                _timeToRelocateToRRoom = true;
+>>>>>>> Stashed changes
             }
             else moreTime = false;
+        }
+        private void StartGameMenuBeforeWeStart()
+        {
+            startScreen.SetActive(true);
+        }
+        private void Update()
+        {
+            _mouseXposition = mouseSensitivity * Input.GetAxis("Mouse X"); // grabs the mouse X axis every frame for the rotation movement.
+            _moveHorizontal = Input.GetAxis("Horizontal"); // Gets the horizontal movement of the character.
+            _moveVertical = Input.GetAxis("Vertical"); // Gets the vertical movement of the character.
+            
+            JumpMovement(); // Controls the jump movement of the character.
+            ChangeSpeed();
+            
+            Vector3 movement = new Vector3(-_moveHorizontal, 0f, -_moveVertical); // Allows the character to move forwards and backwards & left & right.
+            movement = transform.TransformDirection(movement) * runSpeed; // Gives the character movement speed.
+            transform.Rotate(Vector3.up, _mouseXposition * 80 * Time.deltaTime); // Gets the mouse input and uses it to rotate the character.
+            controller.Move((movement + _moveDirection) * Time.deltaTime); // Gets all the movement variables and moves the character.
+            
+            ResetTCurrentMessageEvent?.Invoke(_didRelocateToRRoom);
+            ResetCCurrentMessageEvent?.Invoke(_didRelocateToTRoom);
+            ResetRCurrentMessageEvent?.Invoke(_didRelocateToMazeRoom);
+            ActivateRocketBootStateEvent?.Invoke(_timeToMoveFaster);
+            PlayerIsCurrentlyJumpingEvent?.Invoke(_playerIsJumping);
+            UsingInGameMenuEvent?.Invoke(_canUseInGameMenu);
+        }
+        private void OnTriggerEnter(Collider other)
+        {
+            if (other.CompareTag("RocketBoots")) _timeToMoveFaster = true;
+        }
+
+        private void OnTriggerExit(Collider other)
+        {
+            if (other.CompareTag("RocketBoots")) _timeToMoveFaster = false;
+        }
+
+        private void ChangeSpeed() 
+        {
+            if (_timeToMoveFaster) runSpeed = maxRunSpeed; // This will activate when using the rocket shoes/boots giving max run speed.
+        }
+        private void TimeReachZero(bool resetLocation)
+        {
+            if (resetLocation) { // If the current time on the clock is less then 0.2f from the timer script it will make reset location turn true and starting the function below.
+                controller.transform.position = _newPosition; // This will transform the position of the player to the new position which is got from the last check point.
+            }
+        }
+        private void JumpMovement() 
+        {
+            if (Input.GetKeyDown(KeyCode.Space) && (controller.isGrounded)) // If player hits the space bar and the character is touching the ground it will allow the character to jump.
+            {
+                _moveDirection.y = Mathf.Sqrt(2f * jumpHeight * characterGravity);
+                _playerIsJumping = true;
+            }
+
+            if (controller.isGrounded) return;
+            _moveDirection.y -= characterGravity * Time.deltaTime;
+            _playerIsJumping = false;
+        }
+        private void ResetSpeed() 
+        {
+            runSpeed = _originalRunSpeed; // When the ride is over inside of the rocket boots/shoes it will go back to the original run speed.
+        }
+        private void SaveNewCheckPointLocation(bool newSavePoint)
+        {
+            if (newSavePoint) _newPosition = controller.transform.position;
+        }
+        private void CheckPointRoomMovementCheck(int currentCMessages)
+        {
+            if (currentCMessages == 12) runSpeed = _originalRunSpeed;
+        }
+        private void TimeRoomMovementCheck(int currentTMessages)
+        {
+            if (currentTMessages == 11) runSpeed = _originalRunSpeed;
+        }
+        private void RocketRoomMovementCheck(int currentRMessages)
+        {
+            if (currentRMessages == 11) runSpeed = _originalRunSpeed;
+        }
+        private void RocketSpeedReset(bool rocketBootState)
+        {
+            if (!rocketBootState) ResetSpeed();
+        }
+        private void OnDisable()
+        {
+            CheckPointRoom.letTheCharacterMoveInCheckPointRoom -= CheckPointRoomMovementCheck;
+            TimeRoomScript.letTheCharacterMoveInTheTimeRoom -= TimeRoomMovementCheck;
+            RocketRoomTrainer.letTheCharacterMoveInTheRocketRoom -= RocketRoomMovementCheck;
+            TimerScript.respawnToCheckPointEvent -= TimeReachZero;
+            TimerScript.RelocateToRocketRoomEvent -= RelocateToRocketBootTrainingRoom;
+            TestingCheckP.relocateToTimeRoomEvent -= RelocateToTimeTrainingRoom;
+            RocketSpawnController.resetTheSpeedOfCharacterEvent -= RocketSpeedReset;
+            CheckPoint.SaveHereInstead -= SaveNewCheckPointLocation;
         }
         
         private void BootsEnabled() {

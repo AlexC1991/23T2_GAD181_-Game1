@@ -7,6 +7,7 @@ namespace AlexzanderCowell
     {
         [SerializeField] private Text bottomText; // Text that sits at the bottom of the UI Screen that is located on the trainer.
         [SerializeField] private Text topText; // Text that sits at the top of the UI Screen that is located on the trainer.
+<<<<<<< Updated upstream
         private bool nextMessagePlease; // Transfers a bool to allow the KeyCode E to be pressed from the collider.
         private int maxMessages = 13; // Sets a max message limit for the clamp used underneath.
         [HideInInspector]
@@ -25,91 +26,138 @@ namespace AlexzanderCowell
         }
         private void Update()
         {
+=======
+        private bool _nextMessagePlease; // Transfers a bool to allow the KeyCode E to be pressed from the collider.
+        private readonly int _maxMessages = 13; // Sets a max message limit for the clamp used underneath.
+       [HideInInspector] public int _currentCMessages; // Current message count for what message is at what and keeps the dialog going. It's used in the Character Movement script as well to allow the player to do stuff at the end.
+        private bool _yesHeIs;
+        public static event Action<int> letTheCharacterMoveInCheckPointRoom; 
 
-            if (nextMessagePlease && Input.GetKeyDown(KeyCode.E)) // Will only activate if I am in the collider and the next message please is set true as well as me pressing the E on the keyboard.
+        private void OnEnable()
+        {
+            SpawnLocations.checkPointRoomEvent += IsHeInsideOfCRoom;
+            CharacterMovement.ResetCCurrentMessageEvent += ResetCheckPointMessages;
+        }
+        private void Start()
+        {
+            _currentCMessages = 0;
+        }
+        private void OnTriggerEnter(Collider other) // Detects when the something named other enters the collider.
+        {
+            _nextMessagePlease = other.CompareTag("Player"); // Player collides with it making the bool true.
+            // Gives the other a name to look for when it collides with it. In this instance it's the GameObject that has the tag in unity called Player.
+            // Player dose not collide with it making the bool false.
+        }
+        private void Update()
+        {
+            Debug.Log("Current CheckPoint Room Message " + _currentCMessages);
+            if (_nextMessagePlease && _yesHeIs) InsideOfThisRoom();
+            letTheCharacterMoveInCheckPointRoom?.Invoke(_currentCMessages);
+        }
+        private void IsHeInsideOfCRoom(bool insideOfCheckPointRoom)
+        {
+            if (insideOfCheckPointRoom) _yesHeIs = true;
+        }
+        private void InsideOfThisRoom()
+        {
+>>>>>>> Stashed changes
+
+            if (_nextMessagePlease && Input.GetKeyDown(KeyCode.E)) // Will only activate if I am in the collider and the next message please is set true as well as me pressing the E on the keyboard.
             {
-                currentCMessages = Mathf.Clamp(currentCMessages +1, 0, maxMessages); // Keeps the current C messages from going further then the max messages and only increment by +1 with the min value to start is 0.
+                _currentCMessages = Mathf.Clamp(_currentCMessages +1, 0, _maxMessages); // Keeps the current C messages from going further then the max messages and only increment by +1 with the min value to start is 0.
 
             }
 
-            if (currentCMessages == 1) // If the current C messages is equal to 1 it will play the text provided in the top & bottom text followed by a to string at the end to send it as a string which is a text format
+            if (_currentCMessages == 1) // If the current C messages is equal to 1 it will play the text provided in the top & bottom text followed by a to string at the end to send it as a string which is a text format
             {
-                topText.text = ("Welcome Sir!").ToString();
-                bottomText.text = ("Here We Have").ToString();
+                topText.text = ("Welcome Sir!");
+                bottomText.text = ("Here We Have");
             }
 
-            if (currentCMessages == 2) // If the current C messages is equal to 2 it will play the text provided in the top & bottom text followed by a to string at the end to send it as a string which is a text format
+            if (_currentCMessages == 2) // If the current C messages is equal to 2 it will play the text provided in the top & bottom text followed by a to string at the end to send it as a string which is a text format
             {
-                topText.text = ("A CheckPoint!").ToString();
-                bottomText.text = ("It's So Amazing!.").ToString();
+                topText.text = ("A CheckPoint!");
+                bottomText.text = ("It's So Amazing!.");
             }
 
-            if (currentCMessages == 3) // If the current C messages is equal to 3 it will play the text provided in the top & bottom text followed by a to string at the end to send it as a string which is a text format
+            if (_currentCMessages == 3) // If the current C messages is equal to 3 it will play the text provided in the top & bottom text followed by a to string at the end to send it as a string which is a text format
             {
-                topText.text = ("... Well You").ToString();
-                bottomText.text = ("Must Be Wondering").ToString();
+                topText.text = ("... Well You");
+                bottomText.text = ("Must Be Wondering");
             }
 
-            if (currentCMessages == 4) // If the current C messages is equal to 4 it will play the text provided in the top & bottom text followed by a to string at the end to send it as a string which is a text format
+            if (_currentCMessages == 4) // If the current C messages is equal to 4 it will play the text provided in the top & bottom text followed by a to string at the end to send it as a string which is a text format
             {
-                topText.text = ("Why It's So").ToString();
-                bottomText.text = ("Amazing? Well").ToString();
+                topText.text = ("Why It's So");
+                bottomText.text = ("Amazing? Well");
             }
             
-            if (currentCMessages == 5) // If the current C messages is equal to 5 it will play the text provided in the top & bottom text followed by a to string at the end to send it as a string which is a text format
+            if (_currentCMessages == 5) // If the current C messages is equal to 5 it will play the text provided in the top & bottom text followed by a to string at the end to send it as a string which is a text format
             {
-                topText.text = ("We Have That").ToString();
-                bottomText.text = ("Clock Up Top").ToString();
+                topText.text = ("We Have That");
+                bottomText.text = ("Clock Up Top");
             }
             
-            if (currentCMessages == 6) // If the current C messages is equal to 6 it will play the text provided in the top & bottom text followed by a to string at the end to send it as a string which is a text format
+            if (_currentCMessages == 6) // If the current C messages is equal to 6 it will play the text provided in the top & bottom text followed by a to string at the end to send it as a string which is a text format
             {
-                topText.text = ("If It Counts").ToString();
-                bottomText.text = ("Down To 0").ToString();
+                topText.text = ("If It Counts");
+                bottomText.text = ("Down To 0");
             }
             
-            if (currentCMessages == 7) // If the current C messages is equal to 7 it will play the text provided in the top & bottom text followed by a to string at the end to send it as a string which is a text format
+            if (_currentCMessages == 7) // If the current C messages is equal to 7 it will play the text provided in the top & bottom text followed by a to string at the end to send it as a string which is a text format
             {
-                topText.text = ("Then.. Your").ToString();
-                bottomText.text = ("Screwed. But").ToString();
+                topText.text = ("Then.. Your");
+                bottomText.text = ("Screwed. But");
             }
             
-            if (currentCMessages == 8) // If the current C messages is equal to 8 it will play the text provided in the top & bottom text followed by a to string at the end to send it as a string which is a text format
+            if (_currentCMessages == 8) // If the current C messages is equal to 8 it will play the text provided in the top & bottom text followed by a to string at the end to send it as a string which is a text format
             {
-                topText.text = ("With This Thing").ToString();
-                bottomText.text = ("We Will Always").ToString();
+                topText.text = ("With This Thing");
+                bottomText.text = ("We Will Always");
             }
             
-            if (currentCMessages == 9) // If the current C messages is equal to 9 it will play the text provided in the top & bottom text followed by a to string at the end to send it as a string which is a text format
+            if (_currentCMessages == 9) // If the current C messages is equal to 9 it will play the text provided in the top & bottom text followed by a to string at the end to send it as a string which is a text format
             {
-                topText.text = ("Be Able To").ToString();
-                bottomText.text = ("Well Not Be").ToString();
+                topText.text = ("Be Able To");
+                bottomText.text = ("Well Not Be");
             }
             
-            if (currentCMessages == 10) // If the current C messages is equal to 10 it will play the text provided in the top & bottom text followed by a to string at the end to send it as a string which is a text format
+            if (_currentCMessages == 10) // If the current C messages is equal to 10 it will play the text provided in the top & bottom text followed by a to string at the end to send it as a string which is a text format
             {
-                topText.text = ("Screwed.. Haha").ToString();
-                bottomText.text = ("So Make Sure").ToString();
+                topText.text = ("Screwed.. Haha");
+                bottomText.text = ("So Make Sure");
             }
             
-            if (currentCMessages == 11) // If the current C messages is equal to 11 it will play the text provided in the top & bottom text followed by a to string at the end to send it as a string which is a text format
+            if (_currentCMessages == 11) // If the current C messages is equal to 11 it will play the text provided in the top & bottom text followed by a to string at the end to send it as a string which is a text format
             {
-                topText.text = ("You Always Go").ToString();
-                bottomText.text = ("Through One In").ToString();
+                topText.text = ("You Always Go");
+                bottomText.text = ("Through One In");
             }
             
-            if (currentCMessages == 12) // If the current C messages is equal to 12 it will play the text provided in the top & bottom text followed by a to string at the end to send it as a string which is a text format
+            if (_currentCMessages == 12) // If the current C messages is equal to 12 it will play the text provided in the top & bottom text followed by a to string at the end to send it as a string which is a text format
             {
-                topText.text = ("The Maze &").ToString();
-                bottomText.text = ("Try Not To").ToString();
+                topText.text = ("The Maze &");
+                bottomText.text = ("Try Not To");
             }
             
-            if (currentCMessages == 13) // If the current C messages is equal to 13 it will play the text provided in the top & bottom text followed by a to string at the end to send it as a string which is a text format
+            if (_currentCMessages == 13) // If the current C messages is equal to 13 it will play the text provided in the top & bottom text followed by a to string at the end to send it as a string which is a text format
             {
-                topText.text = ("To Get Lost!.").ToString();
-                bottomText.text = ("Try It Out.").ToString();
+                topText.text = ("To Get Lost!.");
+                bottomText.text = ("Try It Out.");
             }
 
         }
+<<<<<<< Updated upstream
+=======
+        private void ResetCheckPointMessages(bool didRelocateToTRoom)
+        {
+            if (didRelocateToTRoom) _currentCMessages = 0;
+        }
+        private void OnDisable()
+        {
+            SpawnLocations.checkPointRoomEvent -= IsHeInsideOfCRoom;
+            CharacterMovement.ResetCCurrentMessageEvent -= ResetCheckPointMessages;
+        }
+>>>>>>> Stashed changes
     }      
 }
