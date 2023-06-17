@@ -52273,6 +52273,11 @@ PrefabInstance:
       propertyPath: resetSpawnPosition
       value: 
       objectReference: {fileID: 1489124108}
+    - target: {fileID: 7915425007897876263, guid: 23b3ece16d88a9a47912cc5e1c7843b6,
+        type: 3}
+      propertyPath: m_SkinWidth
+      value: 0.85
+      objectReference: {fileID: 0}
     - target: {fileID: 7915425008007362254, guid: 23b3ece16d88a9a47912cc5e1c7843b6,
         type: 3}
       propertyPath: m_IsActive
