@@ -7,7 +7,7 @@ namespace AlexzanderCowell
     {
         [Header("Scripts")] 
         [SerializeField] private CharacterMovement cMove;
-        private int _currentTries;
+        [HideInInspector] public int _currentTries;
         private readonly int _maxTries = 5;
 
         [Header("UI Elements")] 

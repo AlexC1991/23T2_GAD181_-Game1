@@ -5,31 +5,31 @@ namespace AlexzanderCowell
 {
     public class SoundPlusMusicManager : MonoBehaviour
     {
-
-        [FormerlySerializedAs("_mainGameSound")]
+        
         [Header("Sounds")] 
-        [SerializeField] private AudioSource mainGameSound; // Main game music that is played during the main game play.
+        public AudioSource mainGameSound; // Main game music that is played during the main game play.
         [SerializeField] private AudioSource jumpSounds; // Jump sounds for when the character jumps.
         [SerializeField] private AudioSource timeSounds; // Clock sound for when you collide with the clock in game.
         [SerializeField] private AudioSource rocketTimeSounds; // This sound is used while you are using the rocket boots/shoes as an effect.
         
-        private bool _playMainMusic;
+        [HideInInspector] public bool _playMainMusic;
         private bool _playJumpSound;
         private bool _playTimeImpactSound;
         private bool _playRocketUsageSound;
+        
 
         private void OnEnable()
         {
-            SpawnLocations.MainMazeRoomEvent += MazeMusic;
             ClockObject.AddMoreTime += ClockSounds;
             CharacterMovement.ActivateRocketBootStateEvent += RocketSounds;
             CharacterMovement.PlayerIsCurrentlyJumpingEvent += JumpSoundsStart;
         }
         private void Update()
         {
-            if (_playMainMusic)
+            if (_playMainMusic) 
             {
                 mainGameSound.Play();
+                _playMainMusic = false;
             }
 
             if (_playJumpSound)
@@ -49,11 +49,9 @@ namespace AlexzanderCowell
                 timeSounds.Play();
                 _playTimeImpactSound = false;
             }
+            
         }
-        private void MazeMusic(bool insideOfMainMazeRoom)
-        {
-            if (insideOfMainMazeRoom) _playMainMusic = true;
-        }
+
         private void JumpSoundsMustPlay()
         {
             _playJumpSound = true;
@@ -80,7 +78,6 @@ namespace AlexzanderCowell
         }
         private void OnDisable()
         {
-            SpawnLocations.MainMazeRoomEvent -= MazeMusic;
             ClockObject.AddMoreTime -= ClockSounds;
             CharacterMovement.ActivateRocketBootStateEvent -= RocketSounds;
             CharacterMovement.PlayerIsCurrentlyJumpingEvent -= JumpSoundsStart;

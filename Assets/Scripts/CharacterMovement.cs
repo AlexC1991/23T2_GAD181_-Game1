@@ -9,6 +9,8 @@ namespace AlexzanderCowell
         [SerializeField] private TimerScript timeS;
         [SerializeField] private SpawnLocations spawnLScript;
         [SerializeField] private NewLocationSpawn newSpawn;
+        [SerializeField] private TriesMechanicScript tMechanic;
+        [SerializeField] private SoundPlusMusicManager mainSoundPlayer;
 
         [Header("Rocket Room Script"), SerializeField]
         private RocketRoomTrainer rRoomScript;
@@ -77,6 +79,7 @@ namespace AlexzanderCowell
         private void Start()
         {
             retryMechanicScreen.SetActive(false);
+            mainSoundPlayer._playMainMusic = false;
             StartGameMenuBeforeWeStart();
             Time.timeScale = 0;
             _canUseInGameMenu = false;
@@ -134,6 +137,7 @@ namespace AlexzanderCowell
             newSpawn.StartSpawn();
             spawnLScript.MainStartRoomSpawn();
             retryMechanicScreen.SetActive(true);
+            mainSoundPlayer._playMainMusic = true;
             rRoomScript.currentRMessages = 0;
             _didRelocateToMazeRoom = true;
             _didRelocateToRRoom = false;
@@ -224,7 +228,11 @@ namespace AlexzanderCowell
         }
         private void SaveNewCheckPointLocation(bool newSavePoint)
         {
-            if (newSavePoint) _newPosition = controller.transform.position;
+            if (newSavePoint)
+            {
+                _newPosition = controller.transform.position;
+                tMechanic._currentTries = 0;
+            }
         }
         private void CheckPointRoomMovementCheck(int currentCMessages)
         {
