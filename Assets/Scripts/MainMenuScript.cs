@@ -5,6 +5,14 @@ namespace AlexzanderCowell
 {
     public class MainMenuScript : MonoBehaviour
     {
+        [SerializeField] private AudioSource mainMenuSound;
+
+        private void Start()
+        {
+            mainMenuSound.Play();
+            GetComponent<>()
+        }
+
         public void StartGame() // Public Method to be called by a button in Unity.
         {
             SceneManager.LoadScene("Maze 1"); // Loads the scene called Maze 1.
@@ -24,5 +32,6 @@ namespace AlexzanderCowell
         {
             SceneManager.LoadScene("StartMenu"); // Loads the scene called StartMenu.
         }
+
     }
 }
