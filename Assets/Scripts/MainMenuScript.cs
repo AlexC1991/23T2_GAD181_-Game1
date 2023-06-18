@@ -24,11 +24,5 @@ namespace AlexzanderCowell
         {
             SceneManager.LoadScene("StartMenu"); // Loads the scene called StartMenu.
         }
-
-        //public void ResetGame() // Supposed to reset the game back to the main start room but it gave me bug issues which i had to leave and come back to another date to fix.
-        //{
-            //characterM.respawnStart = true;
-            //characterM.MainStartRoomSpawn();
-        //}
     }
 }

@@ -5,19 +5,18 @@ namespace AlexzanderCowell
 {
     public class TriesMechanicScript : MonoBehaviour
     {
-        private float _startCount = 1;
-        private float _originalStartCount;
-        
+        [Header("Scripts")] 
+        [SerializeField] private CharacterMovement cMove;
         private int _currentTries;
-        private int _originalTries;
         private readonly int _maxTries = 5;
 
-        [Header("Tries Mechanic Counter Text")] 
+        [Header("UI Elements")] 
         [SerializeField] private Text counterText;
+        [SerializeField] private GameObject _maxTimesplayerCanPlayScreen;
         private void Start()
         {
-            _originalTries = _currentTries;
-            _originalStartCount = _startCount;
+            _maxTimesplayerCanPlayScreen.SetActive(false);
+            _currentTries = 0;
         }
         private void Update()
         {
@@ -26,17 +25,17 @@ namespace AlexzanderCowell
         }
         private void TriesMechanicStart()
         {
+            if (cMove.tryAgain)
+            {
+                _currentTries += 1;
+                cMove.tryAgain = false;
+            }
+
             if (_currentTries == _maxTries)
             {
-                _startCount -= 0.3f * Time.deltaTime;
-                
-                if (_startCount < 0.2f)
-                {
-                    _currentTries = _originalTries;
-                    _startCount = _originalStartCount;
-                }
+                _maxTimesplayerCanPlayScreen.SetActive(true);
+                Time.timeScale = 0;
             }
-            
         }
     }
 }

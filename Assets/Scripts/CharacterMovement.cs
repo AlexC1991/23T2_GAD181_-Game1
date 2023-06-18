@@ -15,6 +15,7 @@ namespace AlexzanderCowell
 
         [Header("StartUI")] 
         [SerializeField] private GameObject startScreen;
+        [SerializeField] private GameObject retryMechanicScreen;
 
         [Header("Character Run Speed")]
         [HideInInspector] public float runSpeed = 8f; // This is the run speed of the character this script is attached to.
@@ -53,6 +54,8 @@ namespace AlexzanderCowell
         [HideInInspector] public bool resetCheckPointRoomCounter;
         private bool _didRelocateToMazeRoom;
 
+        [HideInInspector] public bool tryAgain;
+
         public static event Action<bool> ResetTCurrentMessageEvent;
         public static event Action<bool> ResetCCurrentMessageEvent;
         public static event Action<bool> ResetRCurrentMessageEvent;
@@ -73,6 +76,7 @@ namespace AlexzanderCowell
         }
         private void Start()
         {
+            retryMechanicScreen.SetActive(false);
             StartGameMenuBeforeWeStart();
             Time.timeScale = 0;
             _canUseInGameMenu = false;
@@ -129,6 +133,7 @@ namespace AlexzanderCowell
             Time.timeScale = 1;
             newSpawn.StartSpawn();
             spawnLScript.MainStartRoomSpawn();
+            retryMechanicScreen.SetActive(true);
             rRoomScript.currentRMessages = 0;
             _didRelocateToMazeRoom = true;
             _didRelocateToRRoom = false;
@@ -153,9 +158,6 @@ namespace AlexzanderCowell
                 timeS.currentTime = 10;
                 timeS.goToRocketTraining = false;
                 _timeToRelocateToRRoom = true;
-            }
-            else
-            {
             }
         }
         private void StartGameMenuBeforeWeStart()
@@ -201,6 +203,7 @@ namespace AlexzanderCowell
         {
             if (resetLocation) { // If the current time on the clock is less then 0.2f from the timer script it will make reset location turn true and starting the function below.
                 controller.transform.position = _newPosition; // This will transform the position of the player to the new position which is got from the last check point.
+                tryAgain = true;
             }
         }
         private void JumpMovement() 
