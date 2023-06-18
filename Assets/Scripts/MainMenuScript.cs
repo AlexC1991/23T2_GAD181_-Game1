@@ -10,7 +10,6 @@ namespace AlexzanderCowell
         private void Start()
         {
             mainMenuSound.Play();
-            GetComponent<>()
         }
 
         public void StartGame() // Public Method to be called by a button in Unity.
