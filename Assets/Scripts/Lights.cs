@@ -37,7 +37,7 @@ public class Lights : MonoBehaviour
         timeDelay = Random.Range(0.01f, 0.3f);
         yield return new WaitForSeconds(timeDelay);
         lightComponent.enabled = true;
-        lightComponent.intensity = originalIntensity * Random.Range(1f, 8f);
+        lightComponent.intensity = originalIntensity * Random.Range(2f, 10f);
         timeDelay = Random.Range(0.3f, 0.8f);
         yield return new WaitForSeconds(timeDelay);
         lightComponent.intensity = originalIntensity;
@@ -47,7 +47,7 @@ public class Lights : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        if (other.CompareTag("player"))
+        if (other.CompareTag("Player"))
         {
             if (flickeringCoroutine != null)
             {
@@ -56,9 +56,11 @@ public class Lights : MonoBehaviour
             }
 
             float targetIntensity = originalIntensity * 8f;
-            float intensityChangeSpeed = 1f;
+            float intensityChangeSpeed = 10f;
 
             StartCoroutine(IncreaseIntensity(targetIntensity, intensityChangeSpeed));
+            
+            Debug.Log("trigger working");
         }
     }
 
