@@ -15,16 +15,17 @@ namespace AlexzanderCowell
         [SerializeField] private Text soundIsWhat; // This text shows on the screen that the sound is currently doing if it be on or off.
         private bool _menuDuringGame;
         private bool playSomeMusic;
-        public static event Action<bool> _MusicOnOrOffEvent; 
+        [HideInInspector] public bool canSeeMouse;
+        [HideInInspector] public bool canLockMouse;
 
         private void OnEnable()
         {
             CharacterMovement.UsingInGameMenuEvent += InMainGameNow;
         }
+
         private void Update()
         {
-            _MusicOnOrOffEvent?.Invoke(playSomeMusic); 
-            
+
             if (Input.GetKeyDown(KeyCode.Escape) && _menuDuringGame)
             {
                 OpenInGameMenu();
@@ -32,6 +33,9 @@ namespace AlexzanderCowell
         }
         private void OpenInGameMenu()
         {
+            Cursor.lockState = CursorLockMode.None;
+            Cursor.visible = true;
+                
             Time.timeScale = 0;
             _menuDuringGame = true; // Sets the in game menu to not show due to a false bool.
             inGameMenuStart.SetActive(true); // Has the in game menu UI to be turned off.
@@ -65,6 +69,9 @@ namespace AlexzanderCowell
             soundIsWhat.GetComponent<Text>().color = Color.red; // Gets the color for the text and changes it to red when the sound is off.
         }
         public void ExitInGameMenu() {
+            
+                Cursor.lockState = CursorLockMode.Locked;
+                Cursor.visible = false;
             
             _menuDuringGame = false; // Sets the in game menu to not show due to a false bool.
             Time.timeScale = 1; // Runs the game at a normal speed.

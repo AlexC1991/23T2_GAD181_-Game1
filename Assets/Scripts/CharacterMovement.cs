@@ -133,6 +133,8 @@ namespace AlexzanderCowell
         }
         private void StartInMazeRoom()
         {
+            Cursor.lockState = CursorLockMode.Locked;
+            Cursor.visible = false;
             Time.timeScale = 1;
             newSpawn.StartSpawn();
             spawnLScript.MainStartRoomSpawn();
