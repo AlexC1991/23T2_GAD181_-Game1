@@ -34,7 +34,6 @@ namespace AlexzanderCowell
             {
                 SpawnLocations.CheckPointRoomEvent += TimerStopsMovingCheckPointRoom;
                 SpawnLocations.MainMazeRoomEvent += TimeContinuesToMoveInMaze;
-                TimeRoomScript.LetTheCharacterMoveInTheTimeRoom += TimeIsOnForTesting;
                 ClockObject.AddMoreTime += AddExtraTime;
             }
 
@@ -91,24 +90,10 @@ namespace AlexzanderCowell
                 {
                     if (insideOfMainMazeRoom) timeIsUp = true;
                 }
-
-              private void TimeIsOnForTesting(int currentTMessages)
-                {
-                    if (currentTMessages == 11)
-                    {
-                        timeIsUp = true;
-
-                        if (currentTime < 5)
-                        {
-                            goToRocketTraining = true;
-                        }
-                    }
-                }
-                 private void OnDisable()
+               private void OnDisable()
                 {
                     SpawnLocations.CheckPointRoomEvent -= TimerStopsMovingCheckPointRoom;
                     SpawnLocations.MainMazeRoomEvent -= TimeContinuesToMoveInMaze;
-                    TimeRoomScript.LetTheCharacterMoveInTheTimeRoom -= TimeIsOnForTesting;
                     ClockObject.AddMoreTime -= AddExtraTime;
                 }
             

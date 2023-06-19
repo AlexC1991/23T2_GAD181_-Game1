@@ -51,7 +51,6 @@ namespace AlexzanderCowell
         }
         private void InsideOfThisRoom()
         {
-            timerRoomS.currentTMessages = 0;
             canRelocateToMaze = false;
             
             if (_nextMessagePlease && Input.GetKeyDown(KeyCode.E)) // Will only activate if I am in the collider and the next message please is set true as well as me pressing the E on the keyboard.

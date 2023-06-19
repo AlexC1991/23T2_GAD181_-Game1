@@ -17,4 +17,13 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/You Won!.unity
     guid: e149133300bc1c94b8e2cdd2306fd4d5
+  - enabled: 1
+    path: Assets/Scenes/CheckPointTrainingRoom.unity
+    guid: 8f5cb58cde056d2409f1a59d342d6743
+  - enabled: 1
+    path: Assets/Scenes/RocketBootTrainingRoom.unity
+    guid: a8d50a89e391c4d4ebd230cd2cd385b6
+  - enabled: 1
+    path: Assets/Scenes/TimeTrainingRoom.unity
+    guid: 82f6736c724538b46ac4892767cd0671
   m_configObjects: {}

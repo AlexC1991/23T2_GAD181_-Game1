@@ -67,12 +67,8 @@ namespace AlexzanderCowell
 
         private void OnEnable()
         {
-            CheckPointRoom.LetTheCharacterMoveInCheckPointRoom += CheckPointRoomMovementCheck;
-            TimeRoomScript.LetTheCharacterMoveInTheTimeRoom += TimeRoomMovementCheck;
-            RocketRoomTrainer.LetTheCharacterMoveInTheRocketRoom += RocketRoomMovementCheck;
             TimerScript.RespawnToCheckPointEvent += TimeReachZero;
             TimerScript.RelocateToRocketRoomEvent += RelocateToRocketBootTrainingRoom;
-            TestingCheckP.RelocateToTimeRoomEvent += RelocateToTimeTrainingRoom;
             RocketSpawnController.ResetTheSpeedOfCharacterEvent += RocketSpeedReset;
             CheckPoint.SaveHereInstead += SaveNewCheckPointLocation;
         }
@@ -254,12 +250,8 @@ namespace AlexzanderCowell
         }
         private void OnDisable()
         {
-            CheckPointRoom.LetTheCharacterMoveInCheckPointRoom -= CheckPointRoomMovementCheck;
-            TimeRoomScript.LetTheCharacterMoveInTheTimeRoom -= TimeRoomMovementCheck;
-            RocketRoomTrainer.LetTheCharacterMoveInTheRocketRoom -= RocketRoomMovementCheck;
             TimerScript.RespawnToCheckPointEvent -= TimeReachZero;
             TimerScript.RelocateToRocketRoomEvent -= RelocateToRocketBootTrainingRoom;
-            TestingCheckP.RelocateToTimeRoomEvent -= RelocateToTimeTrainingRoom;
             RocketSpawnController.ResetTheSpeedOfCharacterEvent -= RocketSpeedReset;
             CheckPoint.SaveHereInstead -= SaveNewCheckPointLocation;
         }
