@@ -1372,12 +1372,6 @@ MonoBehaviour:
   controller: {fileID: 1038860134}
   mouseSensitivity: 5
   characterGravity: 20
---- !u!4 &1038860137 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 7915425007897876260, guid: 23b3ece16d88a9a47912cc5e1c7843b6,
-    type: 3}
-  m_PrefabInstance: {fileID: 1038860132}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &1042200296
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1518,7 +1512,6 @@ GameObject:
   - component: {fileID: 1050119598}
   - component: {fileID: 1050119597}
   - component: {fileID: 1050119596}
-  - component: {fileID: 1050119600}
   m_Layer: 0
   m_Name: Trainer
   m_TagString: Untagged
@@ -1608,21 +1601,6 @@ Transform:
   m_Father: {fileID: 690187424}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1050119600
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1050119595}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c451f2805cc9e694b9c66a5b6485c50e, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  playerPosition: {fileID: 1038860137}
-  dialogueText: {fileID: 605480649}
-  turnOffChat: {fileID: 0}
 --- !u!1001 &1093742643
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1633,7 +1611,7 @@ PrefabInstance:
     - target: {fileID: 7468061125710054080, guid: dfe5d9bd1f6a44c4fb9d4557353cbcb9,
         type: 3}
       propertyPath: m_Name
-      value: ketRoomSpawnPoint
+      value: SpawnPoint
       objectReference: {fileID: 0}
     - target: {fileID: 7468061125710054111, guid: dfe5d9bd1f6a44c4fb9d4557353cbcb9,
         type: 3}
@@ -1648,7 +1626,7 @@ PrefabInstance:
     - target: {fileID: 7468061125710054111, guid: dfe5d9bd1f6a44c4fb9d4557353cbcb9,
         type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0.56
+      value: 0.75
       objectReference: {fileID: 0}
     - target: {fileID: 7468061125710054111, guid: dfe5d9bd1f6a44c4fb9d4557353cbcb9,
         type: 3}

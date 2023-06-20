@@ -6,7 +6,7 @@ using UnityEngine.UI;
 
 namespace AlexzanderCowell
 {
-    public class RocketSpawnController : MonoBehaviour
+    public class RocketBootController : MonoBehaviour
     {
         [Header("Mouse Controls")] 
         private float _mouseXposition;
@@ -41,6 +41,8 @@ namespace AlexzanderCowell
         }
         private void Update()
         {
+            Debug.Log(currentBootTimer);
+            
             if (!_rocketBootState)
             {
                 currentBootTimer = _maxBootTimer;

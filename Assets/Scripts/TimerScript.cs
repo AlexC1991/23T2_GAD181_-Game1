@@ -1,6 +1,5 @@
 using System;
 using UnityEngine;
-using UnityEngine.Serialization;
 using UnityEngine.UI;
 
 namespace AlexzanderCowell
@@ -32,8 +31,6 @@ namespace AlexzanderCowell
 
             private void OnEnable()
             {
-                SpawnLocations.CheckPointRoomEvent += TimerStopsMovingCheckPointRoom;
-                SpawnLocations.MainMazeRoomEvent += TimeContinuesToMoveInMaze;
                 ClockObject.AddMoreTime += AddExtraTime;
             }
 
@@ -81,19 +78,9 @@ namespace AlexzanderCowell
                     }
                 }
 
-               private void TimerStopsMovingCheckPointRoom(bool insideOfCheckPointRoom)
+                private void OnDisable()
                 {
-                    if (insideOfCheckPointRoom) timeIsUp = false;
-                }
-
-               private void TimeContinuesToMoveInMaze(bool insideOfMainMazeRoom)
-                {
-                    if (insideOfMainMazeRoom) timeIsUp = true;
-                }
-               private void OnDisable()
-                {
-                    SpawnLocations.CheckPointRoomEvent -= TimerStopsMovingCheckPointRoom;
-                    SpawnLocations.MainMazeRoomEvent -= TimeContinuesToMoveInMaze;
+                   
                     ClockObject.AddMoreTime -= AddExtraTime;
                 }
             

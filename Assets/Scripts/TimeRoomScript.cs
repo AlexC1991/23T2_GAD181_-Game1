@@ -41,13 +41,9 @@ namespace AlexzanderCowell
             _quickTimerText.text = (_quickTimer).ToString("F0");
             transform.LookAt(2 * transform.position - playerPosition.position);
 
-            if (_nextMessagePlease &&
-                Input.GetKeyDown(KeyCode
-                    .E)) // Will only activate if I am in the collider and the next message please is set true as well as me pressing the E on the keyboard.
+            if (_nextMessagePlease && Input.GetKeyDown(KeyCode.E)) // Will only activate if I am in the collider and the next message please is set true as well as me pressing the E on the keyboard.
             {
-                _currentTMessages =
-                    Mathf.Clamp(_currentTMessages + 1, 0,
-                        _maxMessages); // Keeps the current C messages from going further then the max messages and only increment by +1 with the min value to start is 0.
+                _currentTMessages = Mathf.Clamp(_currentTMessages + 1, 0, _maxMessages); // Keeps the current C messages from going further then the max messages and only increment by +1 with the min value to start is 0.
             }
 
             if (_currentTMessages == 0) // If the current C messages is equal to 1 it will play the text provided in the top & bottom text followed by a to string at the end to send it as a string which is a text format
@@ -110,15 +106,12 @@ namespace AlexzanderCowell
                 dialogueText.text = ("Get that timer before it reaches 0. To proceed to the next tutorial.. Press E");
             }
 
-            if (_currentTMessages ==
-                12) // If the current C messages is equal to 12 it will play the text provided in the top & bottom text followed by a to string at the end to send it as a string which is a text format
+            if (_currentTMessages == 12) // If the current C messages is equal to 12 it will play the text provided in the top & bottom text followed by a to string at the end to send it as a string which is a text format
             {
                 dialogueText.text = ("You must reach that timer behind me and only then you will be able to teleported... Press E");
-
             }
 
-            if (_currentTMessages ==
-                13) // If the current C messages is equal to 12 it will play the text provided in the top & bottom text followed by a to string at the end to send it as a string which is a text format
+            if (_currentTMessages == 13) // If the current C messages is equal to 12 it will play the text provided in the top & bottom text followed by a to string at the end to send it as a string which is a text format
             {
                 dialogueText.text = ("Timer is let go and you can move... Lets Go!.");
                 

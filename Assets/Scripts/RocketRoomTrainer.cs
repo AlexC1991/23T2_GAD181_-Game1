@@ -1,147 +1,134 @@
 using System;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 
 namespace AlexzanderCowell
 {
     public class RocketRoomTrainer : MonoBehaviour
     {
-        [Header("TimeRoomScript"), SerializeField]
-        private TimeRoomScript timerRoomS;
-        [SerializeField] private Transform bootSpawnLocationPoint; // Transform Position for where the boots will spawn in the training room.
-        [SerializeField] private GameObject spawnBootsPlease; // This is the Prefab of the rocket boots that will spawn and be used by the player.
-        [SerializeField] private Text bottomText; // Text that sits at the bottom of the UI Screen that is located on the trainer.
-        [SerializeField] private Text topText; // Text that sits at the top of the UI Screen that is located on the trainer.
+        [SerializeField] private ClockTester clockT;
+        [SerializeField] private Transform playerPosition;
+        [SerializeField] private Transform spawnBootsHere;
+        [SerializeField] private GameObject rocketBoots;
+        [SerializeField] private Text dialogueText; // Text that sits at the top of the UI Screen that is located on the trainer.\
         private bool _nextMessagePlease; // Transfers a bool to allow the KeyCode E to be pressed from the collider.
-        private readonly int _maxMessages = 11; // Sets a max message limit for the clamp used underneath.
-        private bool _hasSpawned; // Checks to make sure only 1 instance of the spawned boots is sent and not multiple when message 9 is the current message count.
-        private bool _yesHeIs;
-        [HideInInspector] public bool canRelocateToMaze;
-        private float _countDownBegins;
-        private float _originalCountDownTimer;
-        [HideInInspector]
-        public int currentRMessages; // Current message count for what message is at what and keeps the dialog going. It's used in the Character Movement script as well to allow the player to do stuff at the end.
-        public static event Action<int> LetTheCharacterMoveInTheRocketRoom; 
-        public static event Action<bool> CharactersBootsNeedSpawning;
+        private readonly int _maxMessages = 13; // Sets a max message limit for the clamp used underneath.
+        private int _currentTMessages;
+        private bool finishedMessages;
+        [SerializeField] private GameObject turnOffChat;
+        [SerializeField] float _quickTimer = 10;
+        public static event Action<bool> _RocketRoomEvent;
+
         private void OnTriggerEnter(Collider other) // Detects when the something named other enters the collider.
         {
             _nextMessagePlease = other.CompareTag("Player"); // Player collides with it making the bool true.
             // Gives the other a name to look for when it collides with it. In this instance it's the GameObject that has the tag in unity called Player.
             // Player dose not collide with it making the bool false.
         }
-        private void OnEnable()
-        {
-            SpawnLocations.RocketBootRoomEvent += IsHeInsideOfRRoom;
-        }
+
         private void Start()
         {
-            currentRMessages = 0;
-            _countDownBegins = 6;
-            _originalCountDownTimer = _countDownBegins;
+            turnOffChat.SetActive(true);
+            finishedMessages = false;
+            _currentTMessages = 0;
         }
-        private void IsHeInsideOfRRoom(bool insideOfRocketRoom)
-        {
-            if (insideOfRocketRoom) _yesHeIs = true;
-        }
+
         private void Update()
         {
-            if (_nextMessagePlease && _yesHeIs) InsideOfThisRoom();
-            LetTheCharacterMoveInTheRocketRoom?.Invoke(currentRMessages);
-            CharactersBootsNeedSpawning?.Invoke(canRelocateToMaze);
-        }
-        private void InsideOfThisRoom()
-        {
-            canRelocateToMaze = false;
-            
+            dialogueText.GetComponent<Text>().color = Color.yellow;
+            _RocketRoomEvent?.Invoke(finishedMessages);
+            transform.LookAt(2 * transform.position - playerPosition.position);
+
             if (_nextMessagePlease && Input.GetKeyDown(KeyCode.E)) // Will only activate if I am in the collider and the next message please is set true as well as me pressing the E on the keyboard.
             {
-                _countDownBegins = _originalCountDownTimer;
-                currentRMessages = Mathf.Clamp(currentRMessages +1, 0, _maxMessages); // Keeps the current R messages from going further then the max messages and only increment by +1 with the min value to start is 0.
-
+                _currentTMessages = Mathf.Clamp(_currentTMessages + 1, 0, _maxMessages); // Keeps the current C messages from going further then the max messages and only increment by +1 with the min value to start is 0.
             }
 
-            if (currentRMessages == 1) // If the current R messages is equal to 1 it will play the text provided in the top & bottom text followed by a to string at the end to send it as a string which is a text format.
+            if (_currentTMessages == 0) // If the current C messages is equal to 1 it will play the text provided in the top & bottom text followed by a to string at the end to send it as a string which is a text format
             {
-                topText.text = ("Rocket Shoes Last");
-                bottomText.text = ("5 Seconds.");
-            }  
+                dialogueText.text = (" ' Caution ' " + " You can not move until i say so.... Press E");
+            }
 
-            if (currentRMessages == 2) // If the current R messages is equal to 2 it will play the text provided in the top & bottom text followed by a to string at the end to send it as a string which is a text format.
+            if (_currentTMessages == 1) // If the current C messages is equal to 1 it will play the text provided in the top & bottom text followed by a to string at the end to send it as a string which is a text format
             {
-                topText.text = ("They Will Be");
-                bottomText.text = ("Randomly Put Around");
-            }  
+                dialogueText.text = ("Well hello there.. This is the Rocket Boot Training Room!.. Press E");
+            }
 
-            if (currentRMessages == 3) // If the current R messages is equal to 3 it will play the text provided in the top & bottom text followed by a to string at the end to send it as a string which is a text format.
+            if (_currentTMessages == 2) // If the current C messages is equal to 2 it will play the text provided in the top & bottom text followed by a to string at the end to send it as a string which is a text format
             {
-                topText.text = ("The Map. Keep");
-                bottomText.text = ("An Eye Out");
-            }  
-            
-            if (currentRMessages == 4) // If the current R messages is equal to 4 it will play the text provided in the top & bottom text followed by a to string at the end to send it as a string which is a text format.
+                dialogueText.text = ("So remember in the last room my friend talked about the clock ??? .. Press E");
+            }
+
+            if (_currentTMessages == 3) // If the current C messages is equal to 3 it will play the text provided in the top & bottom text followed by a to string at the end to send it as a string which is a text format
             {
-                topText.text = ("For Them");
-                bottomText.text = ("To Get A");
-            }  
-            
-            if (currentRMessages == 5) // If the current R messages is equal to 5 it will play the text provided in the top & bottom text followed by a to string at the end to send it as a string which is a text format.
+                dialogueText.text = ("Well there is the clock in the top right corner.. Cool ayy.. Press E");
+            }
+
+            if (_currentTMessages == 4) // If the current C messages is equal to 4 it will play the text provided in the top & bottom text followed by a to string at the end to send it as a string which is a text format
             {
-                topText.text = ("Advantage. Just");
-                bottomText.text = ("Walk Up To");
-            } 
-            
-            if (currentRMessages == 6) // If the current R messages is equal to 6 it will play the text provided in the top & bottom text followed by a to string at the end to send it as a string which is a text format.
+                dialogueText.text = ("You must of noticed the clock behind me spinning around ? yeah?... Press E");
+            }
+
+            if (_currentTMessages == 5) // If the current C messages is equal to 5 it will play the text provided in the top & bottom text followed by a to string at the end to send it as a string which is a text format
             {
-                topText.text = ("Them To Use");
-                bottomText.text = ("Them And");
-            } 
-            
-            if (currentRMessages == 7) // If the current R messages is equal to 7 it will play the text provided in the top & bottom text followed by a to string at the end to send it as a string which is a text format.
+                dialogueText.text = ("Well when that timer reaches less then 5 seconds you will want to grab.. Press E");
+            }
+
+            if (_currentTMessages == 6) // If the current C messages is equal to 6 it will play the text provided in the top & bottom text followed by a to string at the end to send it as a string which is a text format
             {
-                topText.text = ("Hold On Tight.");
-                bottomText.text = ("Now Lets Try");
-            }  
-            
-            if (currentRMessages == 8) // If the current R messages is equal to 8 it will play the text provided in the top & bottom text followed by a to string at the end to send it as a string which is a text format.
+                dialogueText.text = ("And find these clocks through out the maze before that timer gets to 0;... Press E");
+            }
+
+            if (_currentTMessages == 7) // If the current C messages is equal to 7 it will play the text provided in the top & bottom text followed by a to string at the end to send it as a string which is a text format
             {
-                topText.text = ("These Boots On!");
-                bottomText.text = ("Poof!. E Please");
-            }  
-            
-            if (currentRMessages == 9) // If the current R messages is equal to 9 it will play the text provided in the top & bottom text followed by a to string at the end to send it as a string which is a text format.
+                dialogueText.text = ("Because if it gets to 0 then you will be sent back to the checkpoints. However!... Press E");
+            }
+
+            if (_currentTMessages == 8) // If the current C messages is equal to 8 it will play the text provided in the top & bottom text followed by a to string at the end to send it as a string which is a text format
             {
-                if (!_hasSpawned) // If has spawned is false which it is as default. It will allow the Instance to spawn.
+                dialogueText.text = ("Grabbing these clocks behind me can help in you always moving forwards... Press E");
+            }
+
+            if (_currentTMessages == 9) // If the current C messages is equal to 9 it will play the text provided in the top & bottom text followed by a to string at the end to send it as a string which is a text format
+            {
+                dialogueText.text = ("So right now the timer up top is staying at 10 but in a second... Press E");
+            }
+
+            if (_currentTMessages == 10) // If the current C messages is equal to 10 it will play the text provided in the top & bottom text followed by a to string at the end to send it as a string which is a text format
+            {
+                dialogueText.text = ("I will stop holding that timer and let it count down to 0. Try to... Press E");
+            }
+
+            if (_currentTMessages == 11) // If the current C messages is equal to 11 it will play the text provided in the top & bottom text followed by a to string at the end to send it as a string which is a text format
+            {
+                dialogueText.text = ("Get that timer before it reaches 0. To proceed to the next tutorial.. Press E");
+            }
+
+            if (_currentTMessages == 12) // If the current C messages is equal to 12 it will play the text provided in the top & bottom text followed by a to string at the end to send it as a string which is a text format
+            {
+                dialogueText.text = ("You must reach that timer behind me and only then you will be able to teleported... Press E");
+            }
+
+            if (_currentTMessages == 13) // If the current C messages is equal to 12 it will play the text provided in the top & bottom text followed by a to string at the end to send it as a string which is a text format
+            {
+                dialogueText.text = ("Timer is let go and you can move... Lets Go!.");
+
+                finishedMessages = true;
+                _quickTimer -= 0.3f * Time.deltaTime;
+
+                if (_quickTimer < 6f && !clockT.timerGotHit)
                 {
-                    Instantiate(spawnBootsPlease, bootSpawnLocationPoint.position, Quaternion.identity); // Instantiate the prefab of the boots in the boot location as stated above and to have the item spawn rotated when spawned into the scene.
-                    _hasSpawned = true; // Has spawned becomes true and cancels out any more chances of it spawning more.
+                    turnOffChat.SetActive(false);
+                    _quickTimer = 0;
                 }
-                topText.text = ("There We Are."); 
-                bottomText.text = ("Try Them On.");
-            }
-            
-            if (currentRMessages == 10) // If the current R messages is equal to 10 it will play the text provided in the top & bottom text followed by a to string at the end to send it as a string which is a text format
-            {
-                topText.text = ("And Once It");
-                bottomText.text = ("Finishes We Can");
-            }
-            
-            if (currentRMessages == 11) // If the current R messages is equal to 11 it will play the text provided in the top & bottom text followed by a to string at the end to send it as a string which is a text format
-            {
-                topText.text = ("Proceed To The");
-                bottomText.text = ("Main Game!..");
-                _countDownBegins -= 0.7f * Time.deltaTime;
 
-                if (_countDownBegins < 0.2f)
+                if (_quickTimer == 0)
                 {
-                    _countDownBegins = 0;
-                    _countDownBegins = _originalCountDownTimer;
-                    currentRMessages = 0;
+                    SceneManager.LoadScene("Maze1");
                 }
+
             }
         }
-        private void OnDisable()
-        {
-            SpawnLocations.RocketBootRoomEvent -= IsHeInsideOfRRoom;
-        }
-    }      
+    }
 }
