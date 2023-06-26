@@ -7,22 +7,32 @@ namespace AlexzanderCowell
 {
     public class InGameMenu : MonoBehaviour
     {
+        [SerializeField] private CharacterMovement charM;
         [SerializeField] private SoundPlusMusicManager soundManager;
+        
         [Header("UI Elements")]
         [SerializeField] private GameObject inGameMenuStart; // Pulls up the in game menu UI.
         [SerializeField] private GameObject soundOnYes; // This shows the button for sounds on.
         [SerializeField] private GameObject soundOnNo; // this shows the button for sounds off.
         [SerializeField] private Text soundIsWhat; // This text shows on the screen that the sound is currently doing if it be on or off.
+        [SerializeField] private GameObject secondMenu;
+        [SerializeField] private GameObject lowIndicator;
+        [SerializeField] private GameObject medIndicator;
+        [SerializeField] private GameObject highIndicator;
         private bool _menuDuringGame;
         private bool playSomeMusic;
         [HideInInspector] public bool canSeeMouse;
         [HideInInspector] public bool canLockMouse;
-
         private void OnEnable()
         {
             CharacterMovement.UsingInGameMenuEvent += InMainGameNow;
         }
-
+        private void Start()
+        {
+            secondMenu.SetActive(false);
+            inGameMenuStart.SetActive(false);
+            MouseSensitvityMed();
+        }
         private void Update()
         {
 
@@ -35,7 +45,7 @@ namespace AlexzanderCowell
         {
             Cursor.lockState = CursorLockMode.None;
             Cursor.visible = true;
-                
+            secondMenu.SetActive(false);   
             Time.timeScale = 0;
             _menuDuringGame = true; // Sets the in game menu to not show due to a false bool.
             inGameMenuStart.SetActive(true); // Has the in game menu UI to be turned off.
@@ -72,11 +82,47 @@ namespace AlexzanderCowell
             
                 Cursor.lockState = CursorLockMode.Locked;
                 Cursor.visible = false;
-            
+            secondMenu.SetActive(false);
             _menuDuringGame = false; // Sets the in game menu to not show due to a false bool.
             Time.timeScale = 1; // Runs the game at a normal speed.
             inGameMenuStart.SetActive(false); // Has the in game menu UI to be turned off.
             _menuDuringGame = true; // Allows the in game menu to be re opened again if pressed ESC.
+        }
+
+        public void MoreOptions()
+        {
+            inGameMenuStart.SetActive(false);
+            secondMenu.SetActive(true);
+        }
+
+        public void MouseSensitvityLow()
+        {
+            charM.mouseSensitivity = 0.1f;
+            lowIndicator.SetActive(true);
+            medIndicator.SetActive(false);
+            highIndicator.SetActive(false);
+        }
+        
+        public void MouseSensitvityMed()
+        {
+            charM.mouseSensitivity = 1f;
+            lowIndicator.SetActive(false);
+            medIndicator.SetActive(true);
+            highIndicator.SetActive(false);
+        }
+        
+        public void MouseSensitvityHigh()
+        {
+            charM.mouseSensitivity = 2f;
+            lowIndicator.SetActive(false);
+            medIndicator.SetActive(false);
+            highIndicator.SetActive(true);
+        }
+
+        public void GoBackButton()
+        {
+            secondMenu.SetActive(false);
+            inGameMenuStart.SetActive(true);
         }
 
         public void ResetGame()

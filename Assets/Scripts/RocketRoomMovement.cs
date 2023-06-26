@@ -3,13 +3,14 @@ using UnityEngine;
 
 namespace AlexzanderCowell
 {
-    public class TrainingMovementScript : MonoBehaviour
+    public class RocketRoomMovement : MonoBehaviour
     {
         [Header("Character Run Speed")]
         [HideInInspector] public float runSpeed = 8f; // This is the run speed of the character this script is attached to.
         public float maxRunSpeed = 12; // This is the max run speed which is used for the rocket boots/shoes in game.
         [HideInInspector] public float _originalRunSpeed; // This keeps the original run speed to return to when needed.
         private bool _timeToMoveFaster; // This Bool gives a yes/no for when you activate the rocket boots/shoes.
+        [SerializeField] private RocketRoomTrainer rTrainer;
         
         [Header("Character Jump Height")] 
         [SerializeField] private float jumpHeight = 3; // This is the jump height the character can jump up to.
@@ -29,7 +30,6 @@ namespace AlexzanderCowell
         private bool _addMoreBoots;
         [HideInInspector] public bool _activateOnce;
         [HideInInspector] public int _rocketBootCapacity;
-        [HideInInspector] public bool _alwaysActive;
 
         private void OnEnable()
         {
@@ -58,12 +58,11 @@ namespace AlexzanderCowell
             
             if (Input.GetKeyDown(KeyCode.LeftShift) && (_rocketBootCapacity > 0) || Input.GetKeyDown(KeyCode.RightShift) && (_rocketBootCapacity > 0))
             {
-                _alwaysActive = true;
+                rTrainer.rocketBootState = true;
                 _activateOnce = true;
             }
             if (_activateOnce)
             {
-                _alwaysActive = true;
                 _rocketBootCapacity -= 1;
                 Destroy(GameObject.FindWithTag("TrainingBoots"));
                 _activateOnce = false;
@@ -117,4 +116,3 @@ namespace AlexzanderCowell
         }
     }
 }
-

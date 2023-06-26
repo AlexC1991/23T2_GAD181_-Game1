@@ -1,5 +1,6 @@
 using System;
 using UnityEngine;
+using UnityEngine.Serialization;
 using UnityEngine.UI;
 
 namespace AlexzanderCowell
@@ -11,6 +12,7 @@ namespace AlexzanderCowell
         [SerializeField] private NewLocationSpawn newSpawn;
         [SerializeField] private TriesMechanicScript tMechanic;
         [SerializeField] private SoundPlusMusicManager mainSoundPlayer;
+        [SerializeField] private RocketBootController rocketCon;
 
         [Header("StartUI")] 
         [SerializeField] private GameObject startScreen;
@@ -28,9 +30,9 @@ namespace AlexzanderCowell
 
         [Header("Character info")]
         [SerializeField] private CharacterController controller; // This gets the character controller to be used inside of this script to move the character.
-        [SerializeField] private float mouseSensitivity = 1; // Amplifies the mouse movement to be more sensitive when used to rotate the character.
+        [HideInInspector] public float mouseSensitivity = 1; // Amplifies the mouse movement to be more sensitive when used to rotate the character.
         [SerializeField] private float characterGravity = 20; // Sets the gravity for the character.
-        [SerializeField] private Text _rocketBootTotalCapacity;
+        [SerializeField] private Text rocketBootTotalCapacity;
         
         [Header("Various Variables Used")]
         private float _mouseXposition; // Gets the position of the mouse using the float values of its X position in the world.
@@ -44,22 +46,19 @@ namespace AlexzanderCowell
         private bool _timeToRelocateToTRoom;
         private bool _canUseInGameMenu;
         private bool _didRelocateToTRoom;
-        private bool _timeToRelocateToRRoom;
         private bool _didRelocateToRRoom;
-        [HideInInspector] public bool resetRocketRoomCounter;
-        [HideInInspector] public bool resetCheckPointRoomCounter;
-        private bool _didRelocateToMazeRoom;
+        [HideInInspector] public bool didRelocateToMazeRoom;
         [HideInInspector] public bool tryAgain;
         private bool _addMoreBoots;
         private int _rocketBootCapacity;
         private bool _activateSpeedBoots;
         private bool _turnOffRocketBoots;
-        
+        private bool _activateOnce;
+
+        [SerializeField] private GameObject textTurnOff;
 
         public static event Action<bool> ResetTCurrentMessageEvent;
-        public static event Action<bool> ResetCCurrentMessageEvent;
         public static event Action<bool> ResetRCurrentMessageEvent;
-        public static event Action<bool> ActivateRocketBootStateEvent;
         public static event Action<bool> PlayerIsCurrentlyJumpingEvent;
         public static event Action<bool> UsingInGameMenuEvent;
 
@@ -67,11 +66,13 @@ namespace AlexzanderCowell
         {
             TimerScript.RespawnToCheckPointEvent += TimeReachZero;
             TimerScript.RelocateToRocketRoomEvent += RelocateToRocketBootTrainingRoom;
-            RocketBootController.ResetTheSpeedOfCharacterEvent += RocketSpeedReset;
             CheckPoint.SaveHereInstead += SaveNewCheckPointLocation;
         }
         private void Start()
         {
+            Cursor.lockState = CursorLockMode.None;
+            Cursor.visible = true;
+            textTurnOff.SetActive(false);
             rocketBootScreenOnOrOff.SetActive(false);
             _rocketBootCapacity = 0;
             _turnOffRocketBoots = false;
@@ -84,23 +85,10 @@ namespace AlexzanderCowell
             runSpeed = 0;
             _timeToMoveFaster = false;
         }
-        public void StartTrainingRoom()
-        {
-            startScreen.SetActive(false);
-            RelocateToCheckPointRoom();
-        }
         public void StartTheGame()
         {
             startScreen.SetActive(false);
             StartInMazeRoom();
-        }
-        private void RelocateToCheckPointRoom()
-        {
-            Time.timeScale = 1;
-            newSpawn.CheckPointTrainRoomSpawn();
-            resetRocketRoomCounter = true;
-            resetCheckPointRoomCounter = false;
-            runSpeed = 0;
         }
         private void StartInMazeRoom()
         {
@@ -111,12 +99,11 @@ namespace AlexzanderCowell
             retryMechanicScreen.SetActive(true);
             rocketBootScreenOnOrOff.SetActive(true);
             mainSoundPlayer._playMainMusic = true;
-            _didRelocateToMazeRoom = true;
+            didRelocateToMazeRoom = true;
             _didRelocateToRRoom = false;
-            resetRocketRoomCounter = true;
-            resetCheckPointRoomCounter = true;
             _canUseInGameMenu = true;
             _newPosition = controller.transform.position;
+            textTurnOff.SetActive(true);
         }
         private void RelocateToRocketBootTrainingRoom(bool goToRocketTraining)
         {
@@ -125,7 +112,6 @@ namespace AlexzanderCowell
                 timeS.timeIsUp = false;
                 timeS.currentTime = 10;
                 timeS.goToRocketTraining = false;
-                _timeToRelocateToRRoom = true;
             }
         }
         private void StartGameMenuBeforeWeStart()
@@ -134,35 +120,34 @@ namespace AlexzanderCowell
         }
         private void Update()
         {
-            _rocketBootTotalCapacity.text = (_rocketBootCapacity).ToString();
+            rocketBootTotalCapacity.text = (_rocketBootCapacity).ToString();
             _mouseXposition = mouseSensitivity * Input.GetAxis("Mouse X"); // grabs the mouse X axis every frame for the rotation movement.
             _moveHorizontal = Input.GetAxis("Horizontal"); // Gets the horizontal movement of the character.
             _moveVertical = Input.GetAxis("Vertical"); // Gets the vertical movement of the character.
             
             JumpMovement(); // Controls the jump movement of the character.
             ChangeSpeed();
-            Debug.Log(_turnOffRocketBoots);
+            RocketSpeedReset();
+            
             Vector3 movement = new Vector3(-_moveHorizontal, 0f, -_moveVertical); // Allows the character to move forwards and backwards & left & right.
             movement = transform.TransformDirection(movement) * runSpeed; // Gives the character movement speed.
             transform.Rotate(Vector3.up, _mouseXposition * 80 * Time.deltaTime); // Gets the mouse input and uses it to rotate the character.
             controller.Move((movement + _moveDirection) * Time.deltaTime); // Gets all the movement variables and moves the character.
             
             ResetTCurrentMessageEvent?.Invoke(_didRelocateToRRoom);
-            ResetCCurrentMessageEvent?.Invoke(_didRelocateToTRoom);
-            ResetRCurrentMessageEvent?.Invoke(_didRelocateToMazeRoom);
-            ActivateRocketBootStateEvent?.Invoke(_timeToMoveFaster);
+            ResetRCurrentMessageEvent?.Invoke(didRelocateToMazeRoom);
             PlayerIsCurrentlyJumpingEvent?.Invoke(_playerIsJumping);
             UsingInGameMenuEvent?.Invoke(_canUseInGameMenu);
 
             if (Input.GetKeyDown(KeyCode.LeftShift) && (_rocketBootCapacity > 0) || Input.GetKeyDown(KeyCode.RightShift) && (_rocketBootCapacity > 0))
             {
-                _timeToMoveFaster = true;
+                rocketCon.rocketBootState = true;
+                _activateOnce = true;
             }
-
-            if (_turnOffRocketBoots && _timeToMoveFaster)
+            if (_turnOffRocketBoots && rocketCon.rocketBootState && _activateOnce)
             {
                 _rocketBootCapacity -= 1;
-                _timeToMoveFaster = false;
+                _activateOnce = false;
             }
             
             if (_addMoreBoots)
@@ -178,7 +163,6 @@ namespace AlexzanderCowell
                 _addMoreBoots = true;
             }
         }
-
         private void OnTriggerExit(Collider other)
         {
             if (other.CompareTag("RocketBoots")) _addMoreBoots = false;
@@ -186,7 +170,7 @@ namespace AlexzanderCowell
 
         private void ChangeSpeed() 
         {
-            if (_timeToMoveFaster) runSpeed = maxRunSpeed; // This will activate when using the rocket shoes/boots giving max run speed.
+            if (rocketCon.rocketBootState) runSpeed = maxRunSpeed; // This will activate when using the rocket shoes/boots giving max run speed.
         }
         private void TimeReachZero(bool resetLocation)
         {
@@ -219,9 +203,9 @@ namespace AlexzanderCowell
                 tMechanic._currentTries = 0;
             }
         }
-        private void RocketSpeedReset(bool rocketBootState)
+        private void RocketSpeedReset()
         {
-            if (!rocketBootState)
+            if (!rocketCon.rocketBootState)
             {
                 ResetSpeed();
 
@@ -235,7 +219,6 @@ namespace AlexzanderCowell
         {
             TimerScript.RespawnToCheckPointEvent -= TimeReachZero;
             TimerScript.RelocateToRocketRoomEvent -= RelocateToRocketBootTrainingRoom;
-            RocketBootController.ResetTheSpeedOfCharacterEvent -= RocketSpeedReset;
             CheckPoint.SaveHereInstead -= SaveNewCheckPointLocation;
         }
     } 

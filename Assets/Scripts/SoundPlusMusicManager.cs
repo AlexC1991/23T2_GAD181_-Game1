@@ -16,16 +16,19 @@ namespace AlexzanderCowell
         private bool _playJumpSound;
         private bool _playTimeImpactSound;
         private bool _playRocketUsageSound;
+
+        [SerializeField] private RocketBootController rC;
         
 
         private void OnEnable()
         {
             ClockObject.AddMoreTime += ClockSounds;
-            CharacterMovement.ActivateRocketBootStateEvent += RocketSounds;
             CharacterMovement.PlayerIsCurrentlyJumpingEvent += JumpSoundsStart;
         }
         private void Update()
         {
+            RocketSounds();
+            
             if (_playMainMusic) 
             {
                 mainGameSound.Play();
@@ -68,9 +71,9 @@ namespace AlexzanderCowell
         {
             if (moreTimeAdded) ClockGotHit();
         }
-        private void RocketSounds(bool timeToMoveFaster)
+        private void RocketSounds()
         {
-            if (timeToMoveFaster) RocketsInUse();
+            if (rC.rocketBootState) RocketsInUse();
         }
         private void JumpSoundsStart(bool playerIsJumping)
         {
@@ -79,7 +82,6 @@ namespace AlexzanderCowell
         private void OnDisable()
         {
             ClockObject.AddMoreTime -= ClockSounds;
-            CharacterMovement.ActivateRocketBootStateEvent -= RocketSounds;
             CharacterMovement.PlayerIsCurrentlyJumpingEvent -= JumpSoundsStart;
         }
     }

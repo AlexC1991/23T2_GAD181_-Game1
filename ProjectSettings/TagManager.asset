@@ -18,6 +18,7 @@ TagManager:
   - RocketSpawnPoint
   - CheckPointSpawnPoint
   - GameManager
+  - TrainingBoots
   layers:
   - Default
   - TransparentFX

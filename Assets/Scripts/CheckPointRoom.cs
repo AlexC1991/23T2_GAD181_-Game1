@@ -28,6 +28,7 @@ namespace AlexzanderCowell
             turnOffChat.SetActive(true);
             finishedMessages = false;
             _currentCMessages = 0;
+            Time.timeScale = 1;
         }
         
         private void Update()

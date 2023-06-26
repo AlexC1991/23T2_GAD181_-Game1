@@ -25,7 +25,7 @@ namespace AlexzanderCowell
 
             private void Awake()
             {
-                timeIsUp = false; // Time being up is false before starting the game from not allowing the timer to continue.
+                timeIsUp = true; // Time being up is false before starting the game from not allowing the timer to continue.
                 currentTime =_startTime; // Makes the current time always equal the start time when starting the scene this script is in.
             }
 
@@ -41,13 +41,10 @@ namespace AlexzanderCowell
                     StartCountingDown(); // Starts the timer method.
                 /*}*/
 
-                countDownClockTxT.text =
-                    (currentTime)
-                    .ToString("F0"); // Grabs the clock text and adds in what the current time is. reading but because its a float and not a int we use F zero to bring it to displaying only 2 digits on the clock.
+                countDownClockTxT.text = (currentTime).ToString("F0"); // Grabs the clock text and adds in what the current time is. reading but because its a float and not a int we use F zero to bring it to displaying only 2 digits on the clock.
 
                 if (currentTime < finishTime) // Asks if the current time is less then the finish time and if so it starts the function.
                 {
-                    timeIsUp = true; // The clock has hit 0 so the time is up will be true.
                     currentTime = _startTime; // The clock time will reset back to the start time.
                 }
 
@@ -72,7 +69,7 @@ namespace AlexzanderCowell
 
                 private void StartCountingDown() // Time count down method to execute the count down timer inside of it.
                 {
-                    if (timeIsUp && character.resetRocketRoomCounter && character.resetCheckPointRoomCounter)
+                    if (timeIsUp && character.didRelocateToMazeRoom)
                     {
                         currentTime -= 0.7f * Time.deltaTime; // Current times count down by 0.7f every frame times Time. Delta Time.
                     }
@@ -80,7 +77,6 @@ namespace AlexzanderCowell
 
                 private void OnDisable()
                 {
-                   
                     ClockObject.AddMoreTime -= AddExtraTime;
                 }
             
