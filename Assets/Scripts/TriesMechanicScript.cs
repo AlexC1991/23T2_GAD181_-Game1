@@ -33,6 +33,8 @@ namespace AlexzanderCowell
 
             if (_currentTries == _maxTries)
             {
+                Cursor.lockState = CursorLockMode.None;
+                Cursor.visible = true;
                 _maxTimesplayerCanPlayScreen.SetActive(true);
                 Time.timeScale = 0;
             }

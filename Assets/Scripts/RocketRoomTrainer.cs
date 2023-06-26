@@ -26,7 +26,7 @@ namespace AlexzanderCowell
         private Text dialogueText; // Text that sits at the top of the UI Screen that is located on the trainer.\
         private bool _nextMessagePlease; // Transfers a bool to allow the KeyCode E to be pressed from the collider.
         private readonly int _maxMessages = 14; // Sets a max message limit for the clamp used underneath.
-        private int _currentTMessages;
+        private int _currentRMessages;
         private bool _finishedMessages;
         private bool _oneBootOnly;
         [SerializeField] private GameObject turnOffChat;
@@ -47,17 +47,16 @@ namespace AlexzanderCowell
         {
             turnOffChat.SetActive(true);
             _finishedMessages = false;
-            _currentTMessages = 0;
+            _currentRMessages = 0;
             rocketScreen.SetActive(false);
             _oneBootOnly = false;
             areCollected = false;
             rocketBootState = false;
-            tMove.runSpeed = 0;
         }
 
         private void Update()
         {
-            Debug.Log("Rocket State Bool " + rocketBootState);
+            Debug.Log(tMove.runSpeed);
 
             BootsEnabled();
             BootsDisabled();
@@ -68,7 +67,12 @@ namespace AlexzanderCowell
             {
                 rocketScreen.SetActive(true);
             }
-            
+
+            if (_currentRMessages != _maxMessages)
+            {
+                tMove.runSpeed = 0;
+            }
+          
             daRocketCapacitySir.text = (rocketCounter).ToString();
 
             dialogueText.GetComponent<Text>().color = Color.yellow;
@@ -78,75 +82,75 @@ namespace AlexzanderCowell
                 Input.GetKeyDown(KeyCode
                     .E)) // Will only activate if I am in the collider and the next message please is set true as well as me pressing the E on the keyboard.
             {
-                _currentTMessages =
-                    Mathf.Clamp(_currentTMessages + 1, 0,
+                _currentRMessages =
+                    Mathf.Clamp(_currentRMessages + 1, 0,
                         _maxMessages); // Keeps the current C messages from going further then the max messages and only increment by +1 with the min value to start is 0.
             }
 
-            if (_currentTMessages == 0) // If the current C messages is equal to 1 it will play the text provided in the top & bottom text followed by a to string at the end to send it as a string which is a text format
+            if (_currentRMessages == 0) // If the current C messages is equal to 1 it will play the text provided in the top & bottom text followed by a to string at the end to send it as a string which is a text format
             {
                 dialogueText.text = (" ' Caution ' " + " You can not move until i say so.... Press E");
             }
 
-            if (_currentTMessages == 1) // If the current C messages is equal to 1 it will play the text provided in the top & bottom text followed by a to string at the end to send it as a string which is a text format
+            if (_currentRMessages == 1) // If the current C messages is equal to 1 it will play the text provided in the top & bottom text followed by a to string at the end to send it as a string which is a text format
             {
                 dialogueText.text = ("Well hello there.. This is the Rocket Boot Training Room!.. Press E");
             }
 
-            if (_currentTMessages == 2) // If the current C messages is equal to 2 it will play the text provided in the top & bottom text followed by a to string at the end to send it as a string which is a text format
+            if (_currentRMessages == 2) // If the current C messages is equal to 2 it will play the text provided in the top & bottom text followed by a to string at the end to send it as a string which is a text format
             {
                 dialogueText.text = ("So do you like to go fast?? Well sure you do ! hahaha... Press E");
             }
 
-            if (_currentTMessages == 3) // If the current C messages is equal to 3 it will play the text provided in the top & bottom text followed by a to string at the end to send it as a string which is a text format
+            if (_currentRMessages == 3) // If the current C messages is equal to 3 it will play the text provided in the top & bottom text followed by a to string at the end to send it as a string which is a text format
             {
                 dialogueText.text = ("Well I can show how to just remember to use it okay. So.. Press E");
             }
 
-            if (_currentTMessages == 4) // If the current C messages is equal to 4 it will play the text provided in the top & bottom text followed by a to string at the end to send it as a string which is a text format
+            if (_currentRMessages == 4) // If the current C messages is equal to 4 it will play the text provided in the top & bottom text followed by a to string at the end to send it as a string which is a text format
             {
                 dialogueText.text = ("When you go into the maze there will be checkpoints &.. Press E");
             }
 
-            if (_currentTMessages == 5) // If the current C messages is equal to 5 it will play the text provided in the top & bottom text followed by a to string at the end to send it as a string which is a text format
+            if (_currentRMessages == 5) // If the current C messages is equal to 5 it will play the text provided in the top & bottom text followed by a to string at the end to send it as a string which is a text format
             {
                 dialogueText.text = ("Clocks! but what the other 2 didn't tell you is they don't come.. Press E");
             }
 
-            if (_currentTMessages == 6) // If the current C messages is equal to 6 it will play the text provided in the top & bottom text followed by a to string at the end to send it as a string which is a text format
+            if (_currentRMessages == 6) // If the current C messages is equal to 6 it will play the text provided in the top & bottom text followed by a to string at the end to send it as a string which is a text format
             {
                 dialogueText.text = ("Back and if your suck your going to need some speed to help!.. Press E");
             }
 
-            if (_currentTMessages == 7) // If the current C messages is equal to 7 it will play the text provided in the top & bottom text followed by a to string at the end to send it as a string which is a text format
+            if (_currentRMessages == 7) // If the current C messages is equal to 7 it will play the text provided in the top & bottom text followed by a to string at the end to send it as a string which is a text format
             {
                 dialogueText.text = ("So every so often inside of the maze you might see a nice shiny.. Press E");
             }
 
-            if (_currentTMessages == 8) // If the current C messages is equal to 8 it will play the text provided in the top & bottom text followed by a to string at the end to send it as a string which is a text format
+            if (_currentRMessages == 8) // If the current C messages is equal to 8 it will play the text provided in the top & bottom text followed by a to string at the end to send it as a string which is a text format
             {
                 dialogueText.text = ("Pair of rocket boots!.. Well there is a bit more to them then you... Press E");
             }
 
-            if (_currentTMessages == 9) // If the current C messages is equal to 9 it will play the text provided in the top & bottom text followed by a to string at the end to send it as a string which is a text format
+            if (_currentRMessages == 9) // If the current C messages is equal to 9 it will play the text provided in the top & bottom text followed by a to string at the end to send it as a string which is a text format
             {
                 dialogueText.text =
                     ("Would think??.. Well If you manage to collect some of these boots you will.. Press E");
             }
 
-            if (_currentTMessages == 10) // If the current C messages is equal to 10 it will play the text provided in the top & bottom text followed by a to string at the end to send it as a string which is a text format
+            if (_currentRMessages == 10) // If the current C messages is equal to 10 it will play the text provided in the top & bottom text followed by a to string at the end to send it as a string which is a text format
             {
                 dialogueText.text = ("See this counter spawn in the bottom right corner.. Hahaha.. Press E");
             }
 
-            if (_currentTMessages == 11) // If the current C messages is equal to 11 it will play the text provided in the top & bottom text followed by a to string at the end to send it as a string which is a text format
+            if (_currentRMessages == 11) // If the current C messages is equal to 11 it will play the text provided in the top & bottom text followed by a to string at the end to send it as a string which is a text format
             {
                 dialogueText.text =
                     ("Poof! and there it is.. So make sure that counter is there and ready to.. Press E");
                 rocketScreen.SetActive(true);
             }
 
-            if (_currentTMessages == 12) // If the current C messages is equal to 12 it will play the text provided in the top & bottom text followed by a to string at the end to send it as a string which is a text format
+            if (_currentRMessages == 12) // If the current C messages is equal to 12 it will play the text provided in the top & bottom text followed by a to string at the end to send it as a string which is a text format
             {
                 dialogueText.text =
                     ("Go.. Well there is goes haha.. U know what how about u collect these boots.. Press E");
@@ -154,7 +158,7 @@ namespace AlexzanderCowell
                 _oneBootOnly = true;
             }
 
-            if (_currentTMessages == 13) // If the current C messages is equal to 12 it will play the text provided in the top & bottom text followed by a to string at the end to send it as a string which is a text format
+            if (_currentRMessages == 13) // If the current C messages is equal to 12 it will play the text provided in the top & bottom text followed by a to string at the end to send it as a string which is a text format
             {
                 dialogueText.text =
                     ("Poof! haha like magic. Remember when you collect them press shift and hold... Press E");
@@ -164,7 +168,7 @@ namespace AlexzanderCowell
                     _oneBootOnly = false;
                 }
             }
-            if (_currentTMessages == 14) // If the current C messages is equal to 12 it will play the text provided in the top & bottom text followed by a to string at the end to send it as a string which is a text format
+            if (_currentRMessages == 14) // If the current C messages is equal to 12 it will play the text provided in the top & bottom text followed by a to string at the end to send it as a string which is a text format
             {
                 dialogueText.text = ("On tight! Once you collect them go towards the portal and have fun! haha.. U can move now");
                 tMove.runSpeed = tMove._originalRunSpeed;

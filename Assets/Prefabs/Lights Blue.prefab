@@ -14,6 +14,7 @@ GameObject:
   - component: {fileID: 5183924380365413717}
   - component: {fileID: 4678291046906859216}
   - component: {fileID: 919047123266904447}
+  - component: {fileID: 6567163823086568421}
   m_Layer: 0
   m_Name: Cylinder
   m_TagString: Untagged
@@ -160,8 +161,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1f90147024c4f6442800e0f69b258a16, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  isFlickering: 0
-  timeDelay: 0
 --- !u!114 &919047123266904447
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -182,6 +181,19 @@ MonoBehaviour:
   m_ShadowLayerMask: 1
   m_LightCookieSize: {x: 1, y: 1}
   m_LightCookieOffset: {x: 0, y: 0}
+--- !u!65 &6567163823086568421
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1510695763592772910}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 0.24, y: 0.05, z: 0.37}
+  m_Center: {x: 0, y: -0.01, z: 0.27}
 --- !u!1 &3066761695895768703
 GameObject:
   m_ObjectHideFlags: 0
@@ -191,7 +203,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2433213936776254661}
-  - component: {fileID: -5057790671740369175}
   m_Layer: 0
   m_Name: Lights Blue
   m_TagString: Untagged
@@ -216,19 +227,6 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: -181.74, y: 0.44900513, z: -1.0759888}
---- !u!65 &-5057790671740369175
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3066761695895768703}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 1
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Size: {x: 5, y: 20, z: 20}
-  m_Center: {x: 0, y: 15, z: 0}
 --- !u!1 &3297296689205559626
 GameObject:
   m_ObjectHideFlags: 0
